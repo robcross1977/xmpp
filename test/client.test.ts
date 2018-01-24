@@ -2,7 +2,6 @@ import { expect } from 'chai';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 import { EventEmitter } from 'events';
-// import Client from '../src/client';
 import ConnectionOptions from '../src/models/connectionOptions';
 import { PassThrough } from 'stream';
 
@@ -20,9 +19,9 @@ describe('The client class', async () => {
         };
 
         stanzaIOStub = {
-            createClient: sinon.spy(),
-            connect: sinon.spy()
-        };
+            createClient: sinon.stub().returns(new EventEmitter()),
+            connect: sinon.spy(),
+        }
     });
 
     // Set up the main module
@@ -41,11 +40,13 @@ describe('The client class', async () => {
         expect(client).to.exist;
     });
 
-    it('should be an EventEmitter', () => {
-        // arrange
-        // act
-        // assert
-        expect(client instanceof EventEmitter).to.be.true;
+    describe('The handlers member', () => {
+        it('should exist', () => {
+            // arrange
+            // act
+            // assert
+            expect(client.handlers).to.exist;
+        })
     });
 
     describe('The create method', () => {
@@ -73,18 +74,13 @@ describe('The client class', async () => {
             // assert
             expect(client.connect).to.exist;
         });
-
-        it('should call stanzaIO.connect', () => {
-            // arrange
-            // act
-            client.connect();
-
-            // assert
-            expect(stanzaIOStub.connect.called).to.be.true;
-        });
     });
 
     describe('The addHandler method', () => {
+        beforeEach(() => {
+            client.create(connectOptions); // this won't work unless the client is created
+        }); 
+
         it('should exist', () => {
             // arrange
             // act
@@ -96,7 +92,6 @@ describe('The client class', async () => {
             // arrange
             const handler = {
                 name: 'test',
-                emit: 'theDifference',
                 handler: () => {}
             }
 
@@ -162,6 +157,10 @@ describe('The client class', async () => {
     });
 
     describe('The getHandler method', () => {
+        beforeEach(() => {
+            client.create(connectOptions); // this won't work unless the client is created
+        });
+
         it('should exist', () => {
             // arrange
             // act
@@ -173,7 +172,6 @@ describe('The client class', async () => {
             // arrange
             const handler = {
                 name: 'test',
-                emit: 'testEmit',
                 handler: () => {}
             };
 
@@ -188,6 +186,10 @@ describe('The client class', async () => {
     });
 
     describe('The removeHandler method', () => {
+        beforeEach(() => {
+            client.create(connectOptions); // this won't work unless the client is created
+        });
+        
         it('should exist', () => {
             // arrange
             // act

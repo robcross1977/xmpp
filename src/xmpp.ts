@@ -9,5 +9,7 @@ export default class Xmpp {
 
     _setupClient() {
         this.client = new Client();
-    }  
+    }
+
+    //_setupHandlers() {}
 }

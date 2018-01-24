@@ -2,3 +2,4 @@
 --require source-map-support/register
 dist/test/xmpp.test.js
 dist/test/client.test.js
+dist/test/handlers/handler.test.js
