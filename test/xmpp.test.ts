@@ -1,33 +1,27 @@
-import { suite, test, slow, timeout } from 'mocha-typescript';
 import { expect } from 'chai';
 import * as proxyquire from 'proxyquire';
 
-@suite 
-class Xmpp {
-    private _xmpp: any;
+describe('The Xmpp class', () => {
+    let xmpp: any;
 
-    before() {
-        this._bootstrapModule();
-    }
-
-    private _bootstrapModule() {
+    beforeEach(() => {
         const Xmpp = proxyquire('../src/xmpp', {}).default;
-        this._xmpp = new Xmpp();
-    }
+        xmpp = new Xmpp();
+    });
 
-    @test
-    shouldExist() {
+    it('should exist', () => {
         // arrange
         // act
         // assert
-        expect(this._xmpp).to.exist;
-    }
+        expect(xmpp).to.exist;
+    });
 
-    @test
-    shouldExposeClientMember() {
-        // arrange
-        // act
-        // assert
-        expect(this._xmpp.client).to.exist;
-    }
-}
+    describe('The client member', () => {
+        it('should exist', () => {
+            // arrange
+            // act
+            // assert
+            expect(xmpp.client).to.exist;
+        });
+    });
+});
