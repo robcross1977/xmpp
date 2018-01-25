@@ -2,7 +2,6 @@ import Handler from './handler';
 import { Subject } from 'rxjs/Subject';
 import * as colors from 'colors';
 
-
 export default class MucAvailableHandler extends Handler<string> {
     constructor() {
         super();
