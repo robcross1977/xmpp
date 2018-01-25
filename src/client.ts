@@ -8,7 +8,6 @@ import { Subject } from 'rxjs/Subject';
 export default class Client {
     private _handlers: { [name: string]: Handler<any>; } = {};
     public client: any;
-    public sessionStarted = false;
 
     constructor() {}
 

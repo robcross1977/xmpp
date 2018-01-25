@@ -3,48 +3,54 @@ import * as colors from 'colors';
 import Client from './client';
 import Handler from './handlers/handler';
 import SessionStartedHandler from './handlers/sessionStartedHandler';
+import AuthFailedHandler from './handlers/authFailedHandler';
 import ConnectedHandler from './handlers/connectedHandler';
 import ConnectionOptions from './models/connectionOptions';
 import MucAvailableHandler from './handlers/mucAvailableHandler';
+// import muc from './muc/muc';
 
 export default class Xmpp {
-    private client: Client;
-
+    //private _muc: Muc;
+    private _sessionStarted: boolean = false;
+    private _client: Client;
+    
     constructor() {
         this._setupClient();
     }
 
     private _setupClient(): void {
-        this.client = new Client();
+        this._client = new Client();
     }
 
     // You can't do this until this.create is called
     // it won't have the 'on' EventEmitter method attached
     private _setupHandlers(): void {
-        this.client.addHandler(new ConnectedHandler());
-        this.client.addHandler(new SessionStartedHandler());
-        this.client.addHandler(new MucAvailableHandler());
+        this._client.addHandler(new ConnectedHandler());
+        this._client.addHandler(new SessionStartedHandler());
+        this._client.addHandler(new MucAvailableHandler());
+        this._client.addHandler(new AuthFailedHandler());
     }
 
     public create(options: ConnectionOptions): void {
-        this.client.create(options);
+        this._client.create(options);
+        
         this._setupHandlers();
     }
 
     public connect(): void {
-        this.client.connect();
+        this._client.connect();
     }
 
     public subscribe(name: string): Subject<any> {
-        return this.client.getHandler(name).subject;
+        return this._client.getHandler(name).subject;
     }
 
     public addHandler(handler: Handler<any>) {
-        this.client.addHandler(handler);
+        this._client.addHandler(handler);
     }
 
     public removeHandler(name: string) {
-        this.client.removeHandler(name);
+        this._client.removeHandler(name);
     }
 }
 /*

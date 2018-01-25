@@ -14,7 +14,7 @@ describe('The Xmpp class', () => {
 
         xmpp = new Xmpp();
 
-        xmpp.client = {
+        xmpp._client = {
             create: sinon.spy(),
             connect: sinon.spy(),
             addHandler: sinon.spy(),
@@ -35,7 +35,7 @@ describe('The Xmpp class', () => {
             // arrange
             // act
             // assert
-            expect(xmpp.client).to.exist;
+            expect(xmpp._client).to.exist;
         });
     });
 
@@ -60,7 +60,7 @@ describe('The Xmpp class', () => {
             xmpp.create(opts);
 
             // assert
-            expect(xmpp.client.create.calledWithExactly(opts)).to.be.true;
+            expect(xmpp._client.create.calledWithExactly(opts)).to.be.true;
         }); 
     });
 
@@ -79,7 +79,7 @@ describe('The Xmpp class', () => {
             xmpp.connect();
 
             // assert
-            expect(xmpp.client.connect.called).to.be.true;
+            expect(xmpp._client.connect.called).to.be.true;
         });
     });
 
@@ -120,7 +120,7 @@ describe('The Xmpp class', () => {
 
 
             // assert
-            expect(xmpp.client.addHandler.calledWithExactly(handler)).to.be.true;
+            expect(xmpp._client.addHandler.calledWithExactly(handler)).to.be.true;
         });
     });
 
@@ -138,7 +138,7 @@ describe('The Xmpp class', () => {
             xmpp.removeHandler(handler.name);
 
             // assert
-            expect(xmpp.client.removeHandler.calledWithExactly(handler.name)).to.be.true;
+            expect(xmpp._client.removeHandler.calledWithExactly(handler.name)).to.be.true;
         });
     });
 });
