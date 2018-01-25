@@ -10,6 +10,7 @@ import DisconnectedHandler from './handlers/disconnectedHandler';
 import ConnectionOptions from './models/connectionOptions';
 import MucAvailableHandler from './handlers/mucAvailableHandler';
 import MucDeclinedHandler from './handlers/mucDeclinedHandler';
+import MucDestroyedHandler from './handlers/mucDestroyedHandler';
 // import muc from './muc/muc';
 
 export default class Xmpp {
@@ -34,6 +35,7 @@ export default class Xmpp {
         this._client.addHandler(new DisconnectedHandler());
         this._client.addHandler(new MucAvailableHandler());
         this._client.addHandler(new MucDeclinedHandler());
+        this._client.addHandler(new MucDestroyedHandler());
         this._client.addHandler(new SessionStartedHandler());
     }
 
