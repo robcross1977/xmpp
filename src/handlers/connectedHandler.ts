@@ -11,6 +11,6 @@ export default class ConnectedHandler extends Handler<string> {
 
     handler = (data: any): void => {
         console.info(colors.green('#'), colors.green(`-- ${this.name} --`));
-        this.subject.next('connected');
+        this.subject.next(this.name);
     };
 }

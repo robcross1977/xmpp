@@ -11,6 +11,6 @@ export default class ConnectedHandler extends Handler<string> {
 
     handler = (data: any): void => {
         console.error(colors.red('!'), colors.red(`-- ${this.name} --`));
-        this.subject.next('auth:failed');
+        this.subject.next(this.name);
     };
 }
