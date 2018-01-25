@@ -21,20 +21,19 @@ export default class Client {
     }
 
     addHandler(handler: Handler<any>): void {
-        if(this.sessionStarted) {
-            if(!(handler.name in this.handlers)) {
-                this.handlers[handler.name] = handler;
-                this._bindHandlerToThis(handler);
-            } else {
-                throw new Error('Handler already exists at this key');
-            }
+        if(!(handler.name in this.handlers)) {
+            this.handlers[handler.name] = handler;
+            this._bindHandlerToThis(handler);
         } else {
-            throw new Error('Session has to be started to add handlers');
+            throw new Error('Handler already exists at this key');
         }
     }
 
     _bindHandlerToThis(handler: Handler<any>): void {
         this.client.on(handler.name, handler.handler);
+
+        // uncomment to debug. Shows all traffic
+        // this.client.on('raw:*', console.log.bind(console))
     }
 
     getHandler(name: string): Handler<any> {

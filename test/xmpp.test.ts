@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 import Xmpp from '../src/xmpp';
+import ConnectionOptions from '../src/models/connectionOptions';
 
 describe('The Xmpp class', () => {
     let xmpp: any;
@@ -44,11 +45,18 @@ describe('The Xmpp class', () => {
 
         it('should call xmpp.client.create with the options passed in', () => {
             // arrange
+            const opts = {
+                jid: 'test@murderbeard.com',
+                password: 'password!',
+                transport: 'websocket',
+                wsURL: 'ws://fake.murderbeard.com:5280/websocket'
+            } as ConnectionOptions;
+
             // act
-            xmpp.create();
+            xmpp.create(opts);
 
             // assert
-            expect(xmpp.client.create.called).to.be.true;
+            expect(xmpp.client.create.calledWithExactly(opts)).to.be.true;
         }); 
     });
 

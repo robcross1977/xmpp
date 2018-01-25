@@ -15,7 +15,7 @@ describe('The Client class', async () => {
             jid: 'test@test.com',
             password: 'password!',
             transport: 'websocket',
-            wsUrl: 'ws://murderbeard.com/websocket'
+            wsURL: 'ws://murderbeard.com:5280/websocket'
         };
 
         stanzaIOStub = {
@@ -88,14 +88,12 @@ describe('The Client class', async () => {
             expect(client.addHandler).to.exist;
         });
 
-        it('should add a handler if that handler hasn\'t been added yet and the session is started', () => {
+        it('should add a handler if that handler hasn\'t been added yet', () => {
             // arrange
             const handler = {
                 name: 'test',
                 handler: () => {}
             };
-
-            client.sessionStarted = true;
 
             // act
             client.addHandler(handler);
@@ -103,22 +101,6 @@ describe('The Client class', async () => {
 
             // assert
             expect(storedHandler).to.equal(handler);
-        });
-
-        it('should throw an error if attempted when the session isn\'t started', done => {
-            // arrange
-            const handler = {
-                name: 'test',
-                handler: () => {}
-            };
-
-            // act
-            try {
-                client.addHandler(handler);
-            } catch(e) {
-                // assert
-                done();
-            }
         });
 
         it('should check if a the handler has already been added before inserting over the old one when the session is started', () => {
@@ -132,8 +114,6 @@ describe('The Client class', async () => {
                 emit: 'isInTheEmit',
                 handler: () => {}
             };
-
-            client.sessionStarted = true;
 
             // act
             try { // this will throw an error for sure
@@ -149,7 +129,7 @@ describe('The Client class', async () => {
             expect(storedHandler).to.equal(original);
         });
 
-        it('should throw an exception if the handler already exists and the session is started', done => {
+        it('should throw an exception if the handler already exists', done => {
             // arrange
             sinon.spy(client, 'addHandler');
 
@@ -162,8 +142,6 @@ describe('The Client class', async () => {
                 emit: 'theDifference',
                 handler: () => {}
             };
-
-            client.sessionStarted = true;
 
             // act
             client.addHandler(handler);
@@ -197,8 +175,6 @@ describe('The Client class', async () => {
                 handler: () => {}
             };
 
-            client.sessionStarted = true; // this is required to add the handler. 
-
             // act
             client.addHandler(handler);
 
@@ -228,8 +204,6 @@ describe('The Client class', async () => {
                 emit: 'testEmit',
                 handler: () => {}
             };
-
-            client.sessionStarted = true; // this is required to use addHandler
 
             // act
             client.addHandler(handler);
