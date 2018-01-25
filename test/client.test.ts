@@ -5,7 +5,7 @@ import { EventEmitter } from 'events';
 import ConnectionOptions from '../src/models/connectionOptions';
 import { PassThrough } from 'stream';
 
-describe('The client class', async () => {
+describe('The Client class', async () => {
     let client: any;
     let stanzaIOStub: any;
     let connectOptions: ConnectionOptions;
@@ -88,12 +88,14 @@ describe('The client class', async () => {
             expect(client.addHandler).to.exist;
         });
 
-        it('should add a handler if that handler hasn\'t been added yet', () => {
+        it('should add a handler if that handler hasn\'t been added yet and the session is started', () => {
             // arrange
             const handler = {
                 name: 'test',
                 handler: () => {}
-            }
+            };
+
+            client.sessionStarted = true;
 
             // act
             client.addHandler(handler);
@@ -103,7 +105,23 @@ describe('The client class', async () => {
             expect(storedHandler).to.equal(handler);
         });
 
-        it('should check if a the handler has already been added before inserting over the old one', () => {
+        it('should throw an error if attempted when the session isn\'t started', done => {
+            // arrange
+            const handler = {
+                name: 'test',
+                handler: () => {}
+            };
+
+            // act
+            try {
+                client.addHandler(handler);
+            } catch(e) {
+                // assert
+                done();
+            }
+        });
+
+        it('should check if a the handler has already been added before inserting over the old one when the session is started', () => {
             // arrange
             const original = {
                 name: 'test',
@@ -113,7 +131,9 @@ describe('The client class', async () => {
                 name: 'test',
                 emit: 'isInTheEmit',
                 handler: () => {}
-            }
+            };
+
+            client.sessionStarted = true;
 
             // act
             try { // this will throw an error for sure
@@ -129,7 +149,7 @@ describe('The client class', async () => {
             expect(storedHandler).to.equal(original);
         });
 
-        it('should throw an exception if the handler already exists', done => {
+        it('should throw an exception if the handler already exists and the session is started', done => {
             // arrange
             sinon.spy(client, 'addHandler');
 
@@ -142,6 +162,8 @@ describe('The client class', async () => {
                 emit: 'theDifference',
                 handler: () => {}
             };
+
+            client.sessionStarted = true;
 
             // act
             client.addHandler(handler);
@@ -175,6 +197,8 @@ describe('The client class', async () => {
                 handler: () => {}
             };
 
+            client.sessionStarted = true; // this is required to add the handler. 
+
             // act
             client.addHandler(handler);
 
@@ -189,7 +213,7 @@ describe('The client class', async () => {
         beforeEach(() => {
             client.create(connectOptions); // this won't work unless the client is created
         });
-        
+
         it('should exist', () => {
             // arrange
             // act
@@ -204,6 +228,8 @@ describe('The client class', async () => {
                 emit: 'testEmit',
                 handler: () => {}
             };
+
+            client.sessionStarted = true; // this is required to use addHandler
 
             // act
             client.addHandler(handler);
