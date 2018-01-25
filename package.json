@@ -7,7 +7,8 @@
     "pretest": "rm -rf dist && tsc",
     "test": "nyc mocha",
     "watch": "mocha-typescript-watch",
-    "prepare": "tsc"
+    "prepare": "tsc",
+    "start": "tsc && node ./dist/src/xmpp.js"
   },
   "author": "Robert Crossland",
   "license": "ISC",

@@ -39,16 +39,7 @@ describe('The Client class', async () => {
         // assert
         expect(client).to.exist;
     });
-
-    describe('The handlers member', () => {
-        it('should exist', () => {
-            // arrange
-            // act
-            // assert
-            expect(client.handlers).to.exist;
-        })
-    });
-
+    
     describe('The create method', () => {
         it('should exist', () => {
             // arrange

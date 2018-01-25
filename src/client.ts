@@ -6,41 +6,41 @@ import Handler from './handlers/handler';
 import { Subject } from 'rxjs/Subject';
 
 export default class Client {
-    public handlers: { [name: string]: Handler<any>; } = {};
+    private _handlers: { [name: string]: Handler<any>; } = {};
     public client: any;
     public sessionStarted = false;
 
     constructor() {}
 
-    create(options: ConnectionOptions): void {
+    public create(options: ConnectionOptions): void {
         this.client = stanzaIO.createClient(options);
     }
 
-    connect(): void {
+    public connect(): void {
         this.client.connect();
     }
 
-    addHandler(handler: Handler<any>): void {
-        if(!(handler.name in this.handlers)) {
-            this.handlers[handler.name] = handler;
+    public addHandler(handler: Handler<any>): void {
+        if(!(handler.name in this._handlers)) {
+            this._handlers[handler.name] = handler;
             this._bindHandlerToThis(handler);
         } else {
             throw new Error('Handler already exists at this key');
         }
     }
 
-    _bindHandlerToThis(handler: Handler<any>): void {
+    private _bindHandlerToThis(handler: Handler<any>): void {
         this.client.on(handler.name, handler.handler);
 
         // uncomment to debug. Shows all traffic
         // this.client.on('raw:*', console.log.bind(console))
     }
 
-    getHandler(name: string): Handler<any> {
-        return this.handlers[name];
+    public getHandler(name: string): Handler<any> {
+        return this._handlers[name];
     }
 
-    removeHandler(name: string): void {
-        this.handlers = _.omit(this.handlers, name);
+    public removeHandler(name: string): void {
+        this._handlers = _.omit(this._handlers, name);
     }
 }

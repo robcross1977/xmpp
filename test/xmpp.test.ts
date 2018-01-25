@@ -3,18 +3,22 @@ import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 import Xmpp from '../src/xmpp';
 import ConnectionOptions from '../src/models/connectionOptions';
+import Handler from '../src/handlers/Handler';
 
 describe('The Xmpp class', () => {
     let xmpp: any;
+    let handler: Handler<string>;
 
     beforeEach(() => {
+        handler = new Handler<string>();
+
         xmpp = new Xmpp();
 
         xmpp.client = {
             create: sinon.spy(),
             connect: sinon.spy(),
             addHandler: sinon.spy(),
-            getHandler: sinon.spy(),
+            getHandler: sinon.stub().returns(handler),
             removeHandler: sinon.spy()
         };
     });
@@ -76,6 +80,65 @@ describe('The Xmpp class', () => {
 
             // assert
             expect(xmpp.client.connect.called).to.be.true;
+        });
+    });
+
+    describe('The subscribe method', () => {
+        it('should exist', () => {
+            // arrange
+            // act
+            // assert
+            expect(xmpp.subscribe).to.exist;
+        });
+
+        it('should return a handlers subject by name', () => {
+            // arrange
+            // act
+            xmpp.addHandler(handler);
+            const storedHandler = xmpp.subscribe(handler.name);
+
+            // assert
+            expect(storedHandler).to.equal(handler.subject);
+        });
+    });
+
+    describe('The addHandler method', () => {
+        it('should exist', () => {
+            // arrange
+            // act
+            // assert
+            expect(xmpp.addHandler).to.exist;
+        });
+
+        it('should call client.addHandler with the handler passed in', () => {
+            // arrange
+            const handler = new Handler<string>();
+
+
+            // act
+            xmpp.addHandler(handler);
+
+
+            // assert
+            expect(xmpp.client.addHandler.calledWithExactly(handler)).to.be.true;
+        });
+    });
+
+    describe('The removeHandler method', () => {
+        it('should exist', () => {
+            // arrange
+            // assert
+            // act
+            expect(xmpp.removeHandler).to.exist;
+        });
+
+        it('should call xmpp.client.removeHandler with the name passed in', () => {
+            // arrange
+            // act
+            xmpp.removeHandler(handler.name);
+
+            // assert
+            expect(xmpp.client.removeHandler.calledWithExactly(handler.name)).to.be.true;
         });
     });
 });
