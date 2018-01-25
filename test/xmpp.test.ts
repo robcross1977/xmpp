@@ -83,6 +83,15 @@ describe('The Xmpp class', () => {
         });
     });
 
+    describe('The disconnect method', () => {
+        it('should exist', () => {
+            // arrange
+            // act
+            // assert
+            expect(xmpp.disconnect).to.exist;
+        });
+    });
+
     describe('The subscribe method', () => {
         it('should exist', () => {
             // arrange

@@ -67,6 +67,15 @@ describe('The Client class', async () => {
         });
     });
 
+    describe('The disconnect method', () => {
+        it('should exist', () => {
+            // arrange
+            // act
+            // assert
+            expect(client.disconnect).to.exist;
+        });
+    });
+
     describe('The addHandler method', () => {
         beforeEach(() => {
             client.create(connectOptions); // this won't work unless the client is created

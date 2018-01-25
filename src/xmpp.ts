@@ -4,7 +4,9 @@ import Client from './client';
 import Handler from './handlers/handler';
 import SessionStartedHandler from './handlers/sessionStartedHandler';
 import AuthFailedHandler from './handlers/authFailedHandler';
+import AuthSuccessHandler from './handlers/authSuccessHandler';
 import ConnectedHandler from './handlers/connectedHandler';
+import DisconnectedHandler from './handlers/disconnectedHandler';
 import ConnectionOptions from './models/connectionOptions';
 import MucAvailableHandler from './handlers/mucAvailableHandler';
 // import muc from './muc/muc';
@@ -25,10 +27,12 @@ export default class Xmpp {
     // You can't do this until this.create is called
     // it won't have the 'on' EventEmitter method attached
     private _setupHandlers(): void {
-        this._client.addHandler(new ConnectedHandler());
-        this._client.addHandler(new SessionStartedHandler());
-        this._client.addHandler(new MucAvailableHandler());
         this._client.addHandler(new AuthFailedHandler());
+        this._client.addHandler(new AuthSuccessHandler());
+        this._client.addHandler(new ConnectedHandler());
+        this._client.addHandler(new DisconnectedHandler());
+        this._client.addHandler(new MucAvailableHandler());
+        this._client.addHandler(new SessionStartedHandler());
     }
 
     public create(options: ConnectionOptions): void {
@@ -40,6 +44,10 @@ export default class Xmpp {
     public connect(): void {
         this._client.connect();
     }
+
+   public disconnect(): void {
+       this._client.disconnect();
+   }
 
     public subscribe(name: string): Subject<any> {
         return this._client.getHandler(name).subject;
@@ -53,6 +61,7 @@ export default class Xmpp {
         this._client.removeHandler(name);
     }
 }
+
 /*
 const xmpp = new Xmpp();
 const opts = {
@@ -64,4 +73,6 @@ const opts = {
 
 xmpp.create(opts);
 xmpp.connect();
+
+setInterval(() => xmpp.disconnect(), 5000);
 */

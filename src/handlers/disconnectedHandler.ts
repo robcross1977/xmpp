@@ -10,7 +10,7 @@ export default class DisonnectedHandler extends Handler<string> {
     }
 
     handler = (data: any): void => {
-        console.info(colors.red('1'), colors.red(`-- ${this.name} --`));
+        console.info(colors.red('!'), colors.red(`-- ${this.name} --`));
         this.subject.next(this.name);
     };
 }
