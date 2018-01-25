@@ -5,9 +5,10 @@ import Handler from './handlers/handler';
 import SessionStartedHandler from './handlers/sessionStartedHandler';
 import ConnectedHandler from './handlers/connectedHandler';
 import ConnectionOptions from './models/connectionOptions';
+import MucAvailableHandler from './handlers/mucAvailableHandler';
 
 export default class Xmpp {
-    public client: Client;
+    private client: Client;
 
     constructor() {
         this._setupClient();
@@ -22,6 +23,7 @@ export default class Xmpp {
     private _setupHandlers(): void {
         this.client.addHandler(new ConnectedHandler());
         this.client.addHandler(new SessionStartedHandler());
+        this.client.addHandler(new MucAvailableHandler());
     }
 
     public create(options: ConnectionOptions): void {
@@ -45,7 +47,7 @@ export default class Xmpp {
         this.client.removeHandler(name);
     }
 }
-
+/*
 const xmpp = new Xmpp();
 const opts = {
     jid: 'admin@murderbeard.com',
@@ -56,3 +58,4 @@ const opts = {
 
 xmpp.create(opts);
 xmpp.connect();
+*/
