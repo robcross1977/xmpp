@@ -51,7 +51,7 @@ describe('The ConnectedHandler class', () => {
             handler.handler({});
 
             // assert
-            expect(handler.subject.next.calledWithExactly('connected')).to.be.true;
+            expect(handler.subject.next.calledWithExactly(handler.name)).to.be.true;
 
             handler.subject.next.restore();
         });

@@ -3,13 +3,13 @@ import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 import Handler from '../../src/handlers/handler';
 
-describe('The AuthFailedHandler class', () => {
+describe('The DisconnectedHandler class', () => {
     let handler: any;
 
     beforeEach(() => {
-        const AuthFailedHandler = proxyquire('../../src/handlers/authFailedHandler', {}).default;
+        const DisconnectedHandler = proxyquire('../../src/handlers/disconnectedHandler', {}).default;
 
-        handler = new AuthFailedHandler();
+        handler = new DisconnectedHandler();
     });
 
     it('should exist', () => {
@@ -27,11 +27,11 @@ describe('The AuthFailedHandler class', () => {
     });
 
     describe('The name member', () => {
-        it('should be set to the string \'auth:failed\'', () => {
+        it('should be set to the string \'disconnected\'', () => {
             // arrange
             // act
             // assert
-            expect(handler.name).to.equal('auth:failed');
+            expect(handler.name).to.equal('disconnected');
         });
     });
 

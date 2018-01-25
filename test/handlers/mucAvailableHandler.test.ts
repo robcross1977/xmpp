@@ -51,7 +51,7 @@ describe('The MucAvailableHandler class', () => {
             handler.handler({});
 
             // assert
-            expect(handler.subject.next.calledWithExactly('muc:available')).to.be.true;
+            expect(handler.subject.next.calledWithExactly(handler.name)).to.be.true;
 
             handler.subject.next.restore();
         });

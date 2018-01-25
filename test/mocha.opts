@@ -8,3 +8,4 @@ dist/test/handlers/sessionStartedHandler.test.js
 dist/test/handlers/mucAvailableHandler.test.js
 dist/test/handlers/authFailedHandler.test.js
 dist/test/handlers/authSuccessHandler.test.js
+dist/test/handlers/disconnectedHandler.test.js
