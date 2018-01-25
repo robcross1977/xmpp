@@ -1,6 +1,9 @@
+import * as colors from 'colors';
 import Client from './client';
+import SessionStartedHandler from './handlers/sessionStartedHandler';
 import ConnectedHandler from './handlers/connectedHandler';
 import ConnectionOptions from './models/connectionOptions';
+
 
 export default class Xmpp {
     public client: Client;
@@ -17,6 +20,7 @@ export default class Xmpp {
     // it won't have the 'on' EventEmitter method attached
     _setupHandlers(): void {
         this.client.addHandler(new ConnectedHandler());
+        this.client.addHandler(new SessionStartedHandler());
     }
 
     create(options: ConnectionOptions): void {
@@ -28,8 +32,7 @@ export default class Xmpp {
         this.client.connect();
     }
 }
-
-/* Uncomment to use
+/*
 const xmpp = new Xmpp();
 const opts = {
     jid: 'admin@murderbeard.com',

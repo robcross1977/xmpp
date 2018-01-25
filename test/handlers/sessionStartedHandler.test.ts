@@ -3,11 +3,11 @@ import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 import Handler from '../../src/handlers/handler';
 
-describe('The ConnectedHandler class', () => {
+describe('The SessionStartedHandler class', () => {
     let handler: any;
 
     beforeEach(() => {
-        const ConnectedHandler = proxyquire('../../src/handlers/connectedHandler', {}).default;
+        const ConnectedHandler = proxyquire('../../src/handlers/sessionStartedHandler', {}).default;
 
         handler = new ConnectedHandler();
     });
@@ -27,11 +27,11 @@ describe('The ConnectedHandler class', () => {
     });
 
     describe('The name member', () => {
-        it('should be set to the string \'connected\'', () => {
+        it('should be set to the string \'session:started\'', () => {
             // arrange
             // act
             // assert
-            expect(handler.name).to.equal('connected');
+            expect(handler.name).to.equal('session:started');
         });
     });
 
@@ -51,7 +51,7 @@ describe('The ConnectedHandler class', () => {
             handler.handler({});
 
             // assert
-            expect(handler.subject.next.calledWithExactly('connected')).to.be.true;
+            expect(handler.subject.next.calledWithExactly('session:started')).to.be.true;
 
             handler.subject.next.restore();
         });
