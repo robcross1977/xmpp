@@ -2,7 +2,6 @@ import { Subject } from 'rxjs/Subject';
 import * as colors from 'colors';
 import Client from './client';
 import Handler from './handlers/handler';
-import SessionStartedHandler from './handlers/sessionStartedHandler';
 import AuthFailedHandler from './handlers/authFailedHandler';
 import AuthSuccessHandler from './handlers/authSuccessHandler';
 import ConnectedHandler from './handlers/connectedHandler';
@@ -11,6 +10,12 @@ import ConnectionOptions from './models/connectionOptions';
 import MucAvailableHandler from './handlers/mucAvailableHandler';
 import MucDeclinedHandler from './handlers/mucDeclinedHandler';
 import MucDestroyedHandler from './handlers/mucDestroyedHandler';
+import MucErrorHandler from './handlers/mucErrorHandler';
+import MucJoinHandler from './handlers/mucJoinHandler';
+import MucLeaveHandler from './handlers/mucLeaveHandler';
+import MucUnavailableHandler from './handlers/mucUnavailableHandler';
+import SessionEndHandler from './handlers/sessionEndHandler';
+import SessionStartedHandler from './handlers/sessionStartedHandler';
 // import muc from './muc/muc';
 
 export default class Xmpp {
@@ -36,6 +41,11 @@ export default class Xmpp {
         this._client.addHandler(new MucAvailableHandler());
         this._client.addHandler(new MucDeclinedHandler());
         this._client.addHandler(new MucDestroyedHandler());
+        this._client.addHandler(new MucErrorHandler());
+        this._client.addHandler(new MucJoinHandler());
+        this._client.addHandler(new MucLeaveHandler());
+        this._client.addHandler(new MucUnavailableHandler());
+        this._client.addHandler(new SessionEndHandler());
         this._client.addHandler(new SessionStartedHandler());
     }
 

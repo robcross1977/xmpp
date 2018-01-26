@@ -11,6 +11,10 @@ dist/test/handlers/mucAvailableHandler.test.js
 dist/test/handlers/mucDeclinedHandler.test.js
 dist/test/handlers/mucDestroyedHandler.test.js
 dist/test/handlers/mucErrorHandler.test.js
+dist/test/handlers/mucJoinHandler.test.js
+dist/test/handlers/mucLeaveHandler.test.js
+dist/test/handlers/mucUnavailableHandler.test.js
+dist/test/handlers/sessionEndHandler.test.js
 dist/test/handlers/sessionStartedHandler.test.js
 
 

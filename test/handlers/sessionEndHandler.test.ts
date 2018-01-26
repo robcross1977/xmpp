@@ -3,13 +3,13 @@ import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 import Handler from '../../src/handlers/handler';
 
-describe('The SessionStartedHandler class', () => {
+describe('The SessionEndHandler class', () => {
     let handler: any;
 
     beforeEach(() => {
-        const SessionStartedHandler = proxyquire('../../src/handlers/sessionStartedHandler', {}).default;
+        const SessionEndHandler = proxyquire('../../src/handlers/sessionEndHandler', {}).default;
 
-        handler = new SessionStartedHandler();
+        handler = new SessionEndHandler();
     });
 
     it('should exist', () => {
@@ -27,11 +27,11 @@ describe('The SessionStartedHandler class', () => {
     });
 
     describe('The name member', () => {
-        it('should be set to the string \'session:started\'', () => {
+        it('should be set to the string \'session:end\'', () => {
             // arrange
             // act
             // assert
-            expect(handler.name).to.equal('session:started');
+            expect(handler.name).to.equal('session:end');
         });
     });
 

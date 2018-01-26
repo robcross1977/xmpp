@@ -3,13 +3,13 @@ import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 import Handler from '../../src/handlers/handler';
 
-describe('The SessionStartedHandler class', () => {
+describe('The MucJoinHandler class', () => {
     let handler: any;
 
     beforeEach(() => {
-        const SessionStartedHandler = proxyquire('../../src/handlers/sessionStartedHandler', {}).default;
+        const MucJoinHandler  = proxyquire('../../src/handlers/mucJoinHandler', {}).default;
 
-        handler = new SessionStartedHandler();
+        handler = new MucJoinHandler ();
     });
 
     it('should exist', () => {
@@ -19,7 +19,7 @@ describe('The SessionStartedHandler class', () => {
         expect(handler).to.exist;
     });
 
-    it('should be a Handler<T> type', () => {
+    it('should be a Handler type', () => {
         // arrange
         // act
         // assert
@@ -27,11 +27,11 @@ describe('The SessionStartedHandler class', () => {
     });
 
     describe('The name member', () => {
-        it('should be set to the string \'session:started\'', () => {
+        it('should be set to the string \'muc:join\'', () => {
             // arrange
             // act
             // assert
-            expect(handler.name).to.equal('session:started');
+            expect(handler.name).to.equal('muc:join');
         });
     });
 
