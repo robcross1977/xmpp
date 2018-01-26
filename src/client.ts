@@ -8,11 +8,20 @@ import { Subject } from 'rxjs/Subject';
 export default class Client {
     private _handlers: { [name: string]: Handler<any>; } = {};
     private _client: any;
+    public sessionStarted: boolean = false;
 
     constructor() {}
 
+    public get client(): any {
+        return this._client;
+    }
+
     public create(options: ConnectionOptions): void {
         this._client = stanzaIO.createClient(options);
+
+        this._client.on('session:started', () => {
+            this.sessionStarted = true;
+        });
     }
 
     public connect(): void {

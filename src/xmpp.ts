@@ -18,19 +18,24 @@ import SessionEndHandler from './handlers/sessionEndHandler';
 import SessionErrorHandler from './handlers/sessionErrorHandler';
 import SessionStartedHandler from './handlers/sessionStartedHandler';
 import StreamEndHandler from './handlers/streamEndHandler';
-// import muc from './muc/muc';
+import Muc from './muc/muc';
 
 export default class Xmpp {
-    //private _muc: Muc;
-    private _sessionStarted: boolean = false;
+    private _muc: Muc;
     private _client: Client;
     
     constructor() {
         this._setupClient();
     }
 
+    get muc(): Muc {
+        return this._muc;
+    }
+
     private _setupClient(): void {
         this._client = new Client();
+
+        this._muc = new Muc(this._client);
     }
 
     // You can't do this until this.create is called
@@ -44,7 +49,7 @@ export default class Xmpp {
         this._client.addHandler(new MucDeclinedHandler());
         this._client.addHandler(new MucDestroyedHandler());
         this._client.addHandler(new MucErrorHandler());
-        this._client.addHandler(new MucJoinHandler());
+        this._client.addHandler(new MucJoinHandler(this._client));
         this._client.addHandler(new MucLeaveHandler());
         this._client.addHandler(new MucUnavailableHandler());
         this._client.addHandler(new SessionEndHandler());
@@ -79,18 +84,3 @@ export default class Xmpp {
         this._client.removeHandler(name);
     }
 }
-
-/*
-const xmpp = new Xmpp();
-const opts = {
-    jid: 'admin@murderbeard.com',
-    password: 'd00d0012',
-    transport: 'websocket',
-    wsURL: 'ws://murderbeard.com:5280/websocket'
-} as ConnectionOptions;
-
-xmpp.create(opts);
-xmpp.connect();
-
-setInterval(() => xmpp.disconnect(), 5000);
-*/

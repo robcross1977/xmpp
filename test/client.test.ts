@@ -40,6 +40,22 @@ describe('The Client class', async () => {
         expect(client).to.exist;
     });
     
+    describe('The sesionStarted member', () => {
+        it('should exist', () => {
+            // arrange
+            // act
+            // assert
+            expect(client.sessionStarted).to.exist;
+        });
+
+        it('should be initially set to false', () => {
+            // arrange
+            // act
+            // assert
+            expect(client.sessionStarted).to.be.false;
+        })
+    });
+
     describe('The create method', () => {
         it('should exist', () => {
             // arrange

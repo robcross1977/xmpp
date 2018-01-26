@@ -39,6 +39,15 @@ describe('The Xmpp class', () => {
         });
     });
 
+    describe('The muc property', () => {
+        it('should exist', () => {
+            // arrange
+            // act
+            // assert
+            expect(xmpp.muc).to.exist;
+        });
+    });
+
     describe('The create method', () => {
         it('should exist', () => {
             // arrange

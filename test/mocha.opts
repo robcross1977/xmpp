@@ -19,6 +19,7 @@ dist/test/handlers/sessionErrorHandler.test.js
 dist/test/handlers/sessionStartedHandler.test.js
 dist/test/handlers/streamEndHandler.test.js
 dist/test/handlers/streamErrorHandler.test.js
+dist/test/muc/muc.test.js
 
 
 

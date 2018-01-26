@@ -2,14 +2,26 @@ import { expect } from 'chai';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 import Handler from '../../src/handlers/handler';
+import Client from '../../src/client';
 
 describe('The MucJoinHandler class', () => {
     let handler: any;
+    let _xmppClientStub: any;
 
     beforeEach(() => {
-        const MucJoinHandler  = proxyquire('../../src/handlers/mucJoinHandler', {}).default;
+        _xmppClientStub = {
+            client: {
+                emit: sinon.spy()
+            }
+        }
+    });
 
-        handler = new MucJoinHandler ();
+    beforeEach(() => {
+        const MucJoinHandler  = proxyquire('../../src/handlers/mucJoinHandler', {
+            '../client': _xmppClientStub
+        }).default;
+
+        handler = new MucJoinHandler(_xmppClientStub as Client);
     });
 
     it('should exist', () => {
@@ -48,12 +60,30 @@ describe('The MucJoinHandler class', () => {
             sinon.spy(handler.subject, 'next');
 
             // act
-            handler.handler({});
+            handler.handler({
+                from: {
+                    bare: 'tester@conference.murderbeard.com'
+                }
+            });
 
             // assert
             expect(handler.subject.next.calledWithExactly(handler.name)).to.be.true;
 
             handler.subject.next.restore();
+        });
+
+        it('should call _xmppClient.client.emit with the bare data concatenated to -joined', () => {
+            // arrange
+            const data = {
+                from: {
+                    bare: 'tester@conference.murderbeard.com'
+                }
+            }
+            // act
+            handler.handler(data);
+
+            // assert
+            expect(_xmppClientStub.client.emit.calledWithExactly(`${data.from.bare}-joined`)).to.be.true;
         });
     });
 });
