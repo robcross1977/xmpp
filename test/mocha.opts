@@ -15,7 +15,10 @@ dist/test/handlers/mucJoinHandler.test.js
 dist/test/handlers/mucLeaveHandler.test.js
 dist/test/handlers/mucUnavailableHandler.test.js
 dist/test/handlers/sessionEndHandler.test.js
+dist/test/handlers/sessionErrorHandler.test.js
 dist/test/handlers/sessionStartedHandler.test.js
+dist/test/handlers/streamEndHandler.test.js
+dist/test/handlers/streamErrorHandler.test.js
 
 
 

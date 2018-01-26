@@ -11,6 +11,7 @@ export default class MucErrorHandler extends Handler<string> {
  
     handler = (data: any): void => {
         console.info(colors.red('*'), colors.red(`-- ${this.name} --`));
+        console.dir(data);
         this.subject.next(this.name);
     };
 }

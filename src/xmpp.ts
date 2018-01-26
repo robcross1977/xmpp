@@ -15,7 +15,9 @@ import MucJoinHandler from './handlers/mucJoinHandler';
 import MucLeaveHandler from './handlers/mucLeaveHandler';
 import MucUnavailableHandler from './handlers/mucUnavailableHandler';
 import SessionEndHandler from './handlers/sessionEndHandler';
+import SessionErrorHandler from './handlers/sessionErrorHandler';
 import SessionStartedHandler from './handlers/sessionStartedHandler';
+import StreamEndHandler from './handlers/streamEndHandler';
 // import muc from './muc/muc';
 
 export default class Xmpp {
@@ -46,7 +48,9 @@ export default class Xmpp {
         this._client.addHandler(new MucLeaveHandler());
         this._client.addHandler(new MucUnavailableHandler());
         this._client.addHandler(new SessionEndHandler());
+        this._client.addHandler(new SessionErrorHandler());
         this._client.addHandler(new SessionStartedHandler());
+        this._client.addHandler(new StreamEndHandler());
     }
 
     public create(options: ConnectionOptions): void {
