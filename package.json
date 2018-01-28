@@ -2,8 +2,8 @@
   "name": "@murderbeard/xmpp",
   "version": "1.0.0",
   "description": "\"Javascript library for interfacing with xmpp servers\"",
-  "main": "dist/xmpp.js",
-  "types": "dist/xmpp.d.ts",
+  "main": "dist/src/xmpp.js",
+  "types": "dist/src/xmpp.d.ts",
   "scripts": {
     "prepublish": "npm run build",
     "build": "rm -rf dist && tsc",
