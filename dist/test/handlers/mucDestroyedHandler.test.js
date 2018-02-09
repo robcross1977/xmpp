@@ -4,11 +4,12 @@ const chai_1 = require("chai");
 const sinon = require("sinon");
 const proxyquire = require("proxyquire");
 const handler_1 = require("../../src/handlers/handler");
+const logger_1 = require("@murderbeard/logger");
 describe('The MucDestroyedHandler class', () => {
     let handler;
     beforeEach(() => {
         const MucDestroyedHandler = proxyquire('../../src/handlers/mucDestroyedHandler', {}).default;
-        handler = new MucDestroyedHandler();
+        handler = new MucDestroyedHandler(new logger_1.default());
     });
     it('should exist', () => {
         // arrange

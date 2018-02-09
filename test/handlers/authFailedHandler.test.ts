@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 import Handler from '../../src/handlers/handler';
+import Logger from '@murderbeard/logger';
 
 describe('The AuthFailedHandler class', () => {
     let handler: any;
@@ -9,7 +10,7 @@ describe('The AuthFailedHandler class', () => {
     beforeEach(() => {
         const AuthFailedHandler = proxyquire('../../src/handlers/authFailedHandler', {}).default;
 
-        handler = new AuthFailedHandler();
+        handler = new AuthFailedHandler(new Logger());
     });
 
     it('should exist', () => {

@@ -1,16 +1,17 @@
 import Handler from './handler';
 import { Subject } from 'rxjs/Subject';
-import * as colors from 'colors';
+import Logger from '@murderbeard/logger';
 
 export default class ConnectedHandler extends Handler<string> {
-    constructor() {
-        super();
+    constructor(logger: Logger) {
+        super(logger);
 
         this.name = 'connected';
     }
 
     handler = (data: any): void => {
-        console.info(colors.green('#'), colors.green(`-- ${this.name} --`));
+        this._logger.debug({ data: data }, this.name);
+        
         this.subject.next(this.name);
     };
 }

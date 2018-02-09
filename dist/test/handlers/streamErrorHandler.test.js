@@ -4,11 +4,12 @@ const chai_1 = require("chai");
 const sinon = require("sinon");
 const proxyquire = require("proxyquire");
 const handler_1 = require("../../src/handlers/handler");
+const logger_1 = require("@murderbeard/logger");
 describe('The StreamErrorHandler class', () => {
     let handler;
     beforeEach(() => {
         const StreamErrorHandler = proxyquire('../../src/handlers/streamErrorHandler', {}).default;
-        handler = new StreamErrorHandler();
+        handler = new StreamErrorHandler(new logger_1.default());
     });
     it('should exist', () => {
         // arrange

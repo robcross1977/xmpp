@@ -3,9 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const stanzaIO = require("stanza.io");
 const _ = require("lodash");
 class Client {
-    constructor() {
+    constructor(logger) {
         this._handlers = {};
         this.sessionStarted = false;
+        this._logger = logger;
     }
     get client() {
         return this._client;
@@ -14,6 +15,7 @@ class Client {
         this._client = stanzaIO.createClient(options);
         this._client.on('session:started', () => {
             this.sessionStarted = true;
+            this._logger.info('session started');
         });
     }
     connect() {
@@ -28,6 +30,7 @@ class Client {
             this._bindHandlerToThis(handler);
         }
         else {
+            this._logger.error({ handler: handler }, 'Handler already exists at this key');
             throw new Error('Handler already exists at this key');
         }
     }

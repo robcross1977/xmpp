@@ -4,13 +4,15 @@ import * as proxyquire from 'proxyquire';
 import Xmpp from '../src/xmpp';
 import ConnectionOptions from '../src/models/connectionOptions';
 import Handler from '../src/handlers/Handler';
+import Logger from '@murderbeard/logger';
 
 describe('The Xmpp class', () => {
     let xmpp: any;
     let handler: Handler<string>;
+    let logger: Logger;
 
     beforeEach(() => {
-        handler = new Handler<string>();
+        handler = new Handler<string>(new Logger());
 
         xmpp = new Xmpp();
 
@@ -130,7 +132,7 @@ describe('The Xmpp class', () => {
 
         it('should call client.addHandler with the handler passed in', () => {
             // arrange
-            const handler = new Handler<string>();
+            const handler = new Handler<string>(new Logger());
 
 
             // act

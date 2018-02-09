@@ -4,6 +4,7 @@ import * as proxyquire from 'proxyquire';
 import { EventEmitter } from 'events';
 import Client from '../../src/client';
 import { PassThrough } from 'stream';
+import Logger from '@murderbeard/logger';
 
 describe('The Muc class', () => {
     let muc: any;
@@ -41,7 +42,7 @@ describe('The Muc class', () => {
             'uuid/v4': uuidStub
         }).default;
 
-        muc = new Muc(clientStub);
+        muc = new Muc(clientStub, new Logger());
     });
 
     it('should exist', () => {
@@ -97,6 +98,9 @@ describe('The Muc class', () => {
 
                     muc.generateRandomRoomName.restore();
                     muc.configurePersistantAnonRoom.restore();
+                })
+                .catch((error: any) => {
+                    console.log(error)
                 });
         });
 

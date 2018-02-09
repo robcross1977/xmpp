@@ -3,6 +3,7 @@ import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 import Handler from '../../src/handlers/handler';
 import Client from '../../src/client';
+import Logger from '@murderbeard/logger';
 
 describe('The MucJoinHandler class', () => {
     let handler: any;
@@ -21,7 +22,7 @@ describe('The MucJoinHandler class', () => {
             '../client': _xmppClientStub
         }).default;
 
-        handler = new MucJoinHandler(_xmppClientStub as Client);
+        handler = new MucJoinHandler(_xmppClientStub as Client, new Logger());
     });
 
     it('should exist', () => {

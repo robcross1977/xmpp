@@ -3,11 +3,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const chai_1 = require("chai");
 const proxyquire = require("proxyquire");
 const Subject_1 = require("rxjs/Subject");
+const logger_1 = require("@murderbeard/logger");
 describe('The Handler class', () => {
     let handler;
     beforeEach(() => {
         const Handler = proxyquire('../../src/handlers/handler', {}).default;
-        handler = new Handler();
+        handler = new Handler(new logger_1.default());
         handler.name = 'test';
     });
     it('should exist', () => {

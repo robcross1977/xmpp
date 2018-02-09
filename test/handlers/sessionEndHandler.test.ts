@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 import Handler from '../../src/handlers/handler';
+import Logger from '@murderbeard/logger';
 
 describe('The SessionEndHandler class', () => {
     let handler: any;
@@ -9,7 +10,7 @@ describe('The SessionEndHandler class', () => {
     beforeEach(() => {
         const SessionEndHandler = proxyquire('../../src/handlers/sessionEndHandler', {}).default;
 
-        handler = new SessionEndHandler();
+        handler = new SessionEndHandler(new Logger());
     });
 
     it('should exist', () => {

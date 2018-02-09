@@ -4,6 +4,7 @@ const chai_1 = require("chai");
 const sinon = require("sinon");
 const proxyquire = require("proxyquire");
 const events_1 = require("events");
+const logger_1 = require("@murderbeard/logger");
 describe('The Muc class', () => {
     let muc;
     let clientStub;
@@ -33,7 +34,7 @@ describe('The Muc class', () => {
         const Muc = proxyquire('../../src/muc/muc', {
             'uuid/v4': uuidStub
         }).default;
-        muc = new Muc(clientStub);
+        muc = new Muc(clientStub, new logger_1.default());
     });
     it('should exist', () => {
         // arrange
@@ -79,6 +80,9 @@ describe('The Muc class', () => {
                 done();
                 muc.generateRandomRoomName.restore();
                 muc.configurePersistantAnonRoom.restore();
+            })
+                .catch((error) => {
+                console.log(error);
             });
         });
         it('should call leaveRoom', done => {

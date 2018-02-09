@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 import Handler from '../../src/handlers/handler';
+import Logger from '@murderbeard/logger';
 
 describe('The DisconnectedHandler class', () => {
     let handler: any;
@@ -9,7 +10,7 @@ describe('The DisconnectedHandler class', () => {
     beforeEach(() => {
         const DisconnectedHandler = proxyquire('../../src/handlers/disconnectedHandler', {}).default;
 
-        handler = new DisconnectedHandler();
+        handler = new DisconnectedHandler(new Logger());
     });
 
     it('should exist', () => {

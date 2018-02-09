@@ -5,9 +5,9 @@ import Muc from './muc/muc';
 export default class Xmpp {
     private _muc;
     private _client;
+    private _logger;
     constructor();
     readonly muc: Muc;
-    private _setupClient();
     private _setupHandlers();
     create(options: ConnectionOptions): void;
     connect(): void;

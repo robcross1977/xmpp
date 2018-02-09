@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 import Handler from '../../src/handlers/handler';
+import Logger from '@murderbeard/logger';
 
 describe('The StreamEndHandler class', () => {
     let handler: any;
@@ -9,7 +10,7 @@ describe('The StreamEndHandler class', () => {
     beforeEach(() => {
         const StreamEndHandler = proxyquire('../../src/handlers/streamEndHandler', {}).default;
 
-        handler = new StreamEndHandler();
+        handler = new StreamEndHandler(new Logger());
     });
 
     it('should exist', () => {

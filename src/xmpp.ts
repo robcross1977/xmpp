@@ -1,5 +1,4 @@
 import { Subject } from 'rxjs/Subject';
-import * as colors from 'colors';
 import Client from './client';
 import Handler from './handlers/handler';
 import AuthFailedHandler from './handlers/authFailedHandler';
@@ -19,43 +18,41 @@ import SessionErrorHandler from './handlers/sessionErrorHandler';
 import SessionStartedHandler from './handlers/sessionStartedHandler';
 import StreamEndHandler from './handlers/streamEndHandler';
 import Muc from './muc/muc';
+import Logger from '@murderbeard/logger';
 
 export default class Xmpp {
     private _muc: Muc;
     private _client: Client;
+    private _logger: Logger;
     
     constructor() {
-        this._setupClient();
+        this._logger = new Logger();
+        this._client = new Client(this._logger);
+        this._muc = new Muc(this._client, this._logger);
     }
 
     get muc(): Muc {
         return this._muc;
     }
 
-    private _setupClient(): void {
-        this._client = new Client();
-
-        this._muc = new Muc(this._client);
-    }
-
     // You can't do this until this.create is called
     // it won't have the 'on' EventEmitter method attached
     private _setupHandlers(): void {
-        this._client.addHandler(new AuthFailedHandler());
-        this._client.addHandler(new AuthSuccessHandler());
-        this._client.addHandler(new ConnectedHandler());
-        this._client.addHandler(new DisconnectedHandler());
-        this._client.addHandler(new MucAvailableHandler());
-        this._client.addHandler(new MucDeclinedHandler());
-        this._client.addHandler(new MucDestroyedHandler());
-        this._client.addHandler(new MucErrorHandler());
-        this._client.addHandler(new MucJoinHandler(this._client));
-        this._client.addHandler(new MucLeaveHandler());
-        this._client.addHandler(new MucUnavailableHandler());
-        this._client.addHandler(new SessionEndHandler());
-        this._client.addHandler(new SessionErrorHandler());
-        this._client.addHandler(new SessionStartedHandler());
-        this._client.addHandler(new StreamEndHandler());
+        this._client.addHandler(new AuthFailedHandler(this._logger));
+        this._client.addHandler(new AuthSuccessHandler(this._logger));
+        this._client.addHandler(new ConnectedHandler(this._logger));
+        this._client.addHandler(new DisconnectedHandler(this._logger));
+        this._client.addHandler(new MucAvailableHandler(this._logger));
+        this._client.addHandler(new MucDeclinedHandler(this._logger));
+        this._client.addHandler(new MucDestroyedHandler(this._logger));
+        this._client.addHandler(new MucErrorHandler(this._logger));
+        this._client.addHandler(new MucJoinHandler(this._client, this._logger));
+        this._client.addHandler(new MucLeaveHandler(this._logger));
+        this._client.addHandler(new MucUnavailableHandler(this._logger));
+        this._client.addHandler(new SessionEndHandler(this._logger));
+        this._client.addHandler(new SessionErrorHandler(this._logger));
+        this._client.addHandler(new SessionStartedHandler(this._logger));
+        this._client.addHandler(new StreamEndHandler(this._logger));
     }
 
     public create(options: ConnectionOptions): void {

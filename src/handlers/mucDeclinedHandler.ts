@@ -1,18 +1,17 @@
 import Handler from './handler';
 import { Subject } from 'rxjs/Subject';
-import * as colors from 'colors';
+import Logger from '@murderbeard/logger';
 
 export default class MucAvailableHandler extends Handler<string> {
-    constructor() {
-        super();
+    constructor(logger: Logger) {
+        super(logger);
 
         this.name = 'muc:declined';
     }
  
     handler = (data: any): void => {
-        console.info(colors.red('!'), colors.red(`-- ${this.name} --`));
-        console.dir(data);
-        
+        this._logger.info({ data: data}, this.name);
+
         this.subject.next(this.name);
     };
 }

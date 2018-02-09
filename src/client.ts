@@ -4,13 +4,18 @@ import * as _ from 'lodash';
 import ConnectionOptions from './models/connectionOptions';
 import Handler from './handlers/handler';
 import { Subject } from 'rxjs/Subject';
+import Logger from '@murderbeard/logger';
 
 export default class Client {
     private _handlers: { [name: string]: Handler<any>; } = {};
     private _client: any;
+    private _logger: Logger;
+
     public sessionStarted: boolean = false;
 
-    constructor() {}
+    constructor(logger: Logger) {
+        this._logger = logger;
+    }
 
     public get client(): any {
         return this._client;
@@ -21,6 +26,8 @@ export default class Client {
 
         this._client.on('session:started', () => {
             this.sessionStarted = true;
+
+            this._logger.info('session started');
         });
     }
 
@@ -38,6 +45,8 @@ export default class Client {
 
             this._bindHandlerToThis(handler);
         } else {
+            this._logger.error({ handler: handler }, 'Handler already exists at this key');
+            
             throw new Error('Handler already exists at this key');
         }
     }

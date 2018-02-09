@@ -4,11 +4,12 @@ const chai_1 = require("chai");
 const sinon = require("sinon");
 const proxyquire = require("proxyquire");
 const handler_1 = require("../../src/handlers/handler");
+const logger_1 = require("@murderbeard/logger");
 describe('The DisconnectedHandler class', () => {
     let handler;
     beforeEach(() => {
         const DisconnectedHandler = proxyquire('../../src/handlers/disconnectedHandler', {}).default;
-        handler = new DisconnectedHandler();
+        handler = new DisconnectedHandler(new logger_1.default());
     });
     it('should exist', () => {
         // arrange

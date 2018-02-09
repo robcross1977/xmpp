@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import * as proxyquire from 'proxyquire';
 import { Subject } from 'rxjs/Subject';
+import Logger from '@murderbeard/logger';
 
 describe('The Handler class', () => {
     let handler: any;
@@ -8,7 +9,7 @@ describe('The Handler class', () => {
     beforeEach(() => {
         const Handler = proxyquire('../../src/handlers/handler', {}).default;
 
-        handler = new Handler();
+        handler = new Handler(new Logger());
         handler.name = 'test';
     });
 

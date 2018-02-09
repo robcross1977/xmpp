@@ -1,16 +1,17 @@
 import Handler from './handler';
 import { Subject } from 'rxjs/Subject';
-import * as colors from 'colors';
+import Logger from '@murderbeard/logger';
 
 export default class SessionStartedHandler extends Handler<string> {
-    constructor() {
-        super();
+    constructor(logger: Logger) {
+        super(logger);
 
         this.name = 'session:end';
     }
 
     handler = (data: any): void => {
-        console.info(colors.yellow('*'), colors.yellow(`-- ${this.name} --`));
+        this._logger.info({ data: data }, this.name);
+        
         this.subject.next(this.name);
     };
 }

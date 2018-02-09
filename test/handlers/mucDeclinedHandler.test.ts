@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 import Handler from '../../src/handlers/handler';
+import Logger from '@murderbeard/logger';
 
 describe('The MucDeclinedHandler class', () => {
     let handler: any;
@@ -9,7 +10,7 @@ describe('The MucDeclinedHandler class', () => {
     beforeEach(() => {
         const MucDeclinedHandler  = proxyquire('../../src/handlers/mucDeclinedHandler', {}).default;
 
-        handler = new MucDeclinedHandler ();
+        handler = new MucDeclinedHandler (new Logger());
     });
 
     it('should exist', () => {
