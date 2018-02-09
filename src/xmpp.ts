@@ -28,21 +28,31 @@ export default class Xmpp {
     constructor() {
         this._logger = new Logger({
             name: '@murderbeard/xmpp',
-            level: 'debug',
-            streams: [
-                {
+            level: 'error',
+            streams: [{
                     level: 'error',
                     path: './error.log'
-                },
-                {
-                    level: 'debug',
-                    stream: process.stdout
-                }
-            ]
+            }]
         });
-        
+
+        this._setupDevLogger();
+
         this._client = new Client(this._logger);
         this._muc = new Muc(this._client, this._logger);
+    }
+
+    private _setupDevLogger() {
+        if(process.env['NODE_ENV'] === 'dev') {
+            this._logger.addStream({
+                level: 'debug',
+                stream: process.stdout
+            });
+
+            this._logger.addStream({
+                level: 'debug',
+                path: 'debug.log'
+            });
+        }
     }
 
     get muc(): Muc {
