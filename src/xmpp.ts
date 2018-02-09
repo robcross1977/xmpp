@@ -26,7 +26,21 @@ export default class Xmpp {
     private _logger: Logger;
     
     constructor() {
-        this._logger = new Logger();
+        this._logger = new Logger({
+            name: '@murderbeard/xmpp',
+            level: 'debug',
+            streams: [
+                {
+                    level: 'error',
+                    path: './error.log'
+                },
+                {
+                    level: 'debug',
+                    stream: process.stdout
+                }
+            ]
+        });
+        
         this._client = new Client(this._logger);
         this._muc = new Muc(this._client, this._logger);
     }
