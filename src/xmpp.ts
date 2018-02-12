@@ -66,7 +66,7 @@ export default class Xmpp {
         this._client.disconnect();
     }
 
-    public subscribe(name: string): Subject<any> {
+    public subject(name: string): Subject<any> {
         return this._client.getHandler(name).subject;
     }
 

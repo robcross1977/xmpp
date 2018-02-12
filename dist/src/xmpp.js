@@ -54,7 +54,7 @@ class Xmpp {
     disconnect() {
         this._client.disconnect();
     }
-    subscribe(name) {
+    subject(name) {
         return this._client.getHandler(name).subject;
     }
     addHandler(handler) {

@@ -11,7 +11,7 @@ export default class Xmpp {
     create(options: ConnectionOptions): void;
     connect(): void;
     disconnect(): void;
-    subscribe(name: string): Subject<any>;
+    subject(name: string): Subject<any>;
     addHandler(handler: Handler<any>): void;
     removeHandler(name: string): void;
 }

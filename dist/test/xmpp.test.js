@@ -86,18 +86,18 @@ describe('The Xmpp class', () => {
             chai_1.expect(xmpp.disconnect).to.exist;
         });
     });
-    describe('The subscribe method', () => {
+    describe('The subject method', () => {
         it('should exist', () => {
             // arrange
             // act
             // assert
-            chai_1.expect(xmpp.subscribe).to.exist;
+            chai_1.expect(xmpp.subject).to.exist;
         });
         it('should return a handlers subject by name', () => {
             // arrange
             // act
             xmpp.addHandler(handler);
-            const storedHandler = xmpp.subscribe(handler.name);
+            const storedHandler = xmpp.subject(handler.name);
             // assert
             chai_1.expect(storedHandler).to.equal(handler.subject);
         });
