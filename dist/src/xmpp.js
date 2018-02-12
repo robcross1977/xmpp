@@ -65,12 +65,4 @@ class Xmpp {
     }
 }
 exports.default = Xmpp;
-const xmpp = new Xmpp();
-xmpp.create({
-    jid: 'admin@murderbeard.com',
-    password: 'd00d0012',
-    transport: 'websocket',
-    wsURL: 'ws://murderbeard.com:5280/websocket'
-});
-xmpp.connect();
 //# sourceMappingURL=xmpp.js.map
