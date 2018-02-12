@@ -1,6 +1,5 @@
 import Handler from './handler';
-import Logger from '@murderbeard/logger';
 export default class SessionStartedHandler extends Handler<string> {
-    constructor(logger: Logger);
+    constructor();
     handler: (data: any) => void;
 }

@@ -10,7 +10,7 @@ describe('The DisconnectedHandler class', () => {
     beforeEach(() => {
         const DisconnectedHandler = proxyquire('../../src/handlers/disconnectedHandler', {}).default;
 
-        handler = new DisconnectedHandler(new Logger());
+        handler = new DisconnectedHandler();
     });
 
     it('should exist', () => {

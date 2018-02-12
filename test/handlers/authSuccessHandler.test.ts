@@ -10,7 +10,7 @@ describe('The AuthSuccessHandler class', () => {
     beforeEach(() => {
         const AuthSuccessHandler = proxyquire('../../src/handlers/authSuccessHandler', {}).default;
 
-        handler = new AuthSuccessHandler(new Logger());
+        handler = new AuthSuccessHandler();
     });
 
     it('should exist', () => {

@@ -4,12 +4,11 @@ const chai_1 = require("chai");
 const sinon = require("sinon");
 const proxyquire = require("proxyquire");
 const handler_1 = require("../../src/handlers/handler");
-const logger_1 = require("@murderbeard/logger");
 describe('The AuthSuccessHandler class', () => {
     let handler;
     beforeEach(() => {
         const AuthSuccessHandler = proxyquire('../../src/handlers/authSuccessHandler', {}).default;
-        handler = new AuthSuccessHandler(new logger_1.default());
+        handler = new AuthSuccessHandler();
     });
     it('should exist', () => {
         // arrange

@@ -4,7 +4,6 @@ const chai_1 = require("chai");
 const sinon = require("sinon");
 const proxyquire = require("proxyquire");
 const handler_1 = require("../../src/handlers/handler");
-const logger_1 = require("@murderbeard/logger");
 describe('The MucJoinHandler class', () => {
     let handler;
     let _xmppClientStub;
@@ -19,7 +18,7 @@ describe('The MucJoinHandler class', () => {
         const MucJoinHandler = proxyquire('../../src/handlers/mucJoinHandler', {
             '../client': _xmppClientStub
         }).default;
-        handler = new MucJoinHandler(_xmppClientStub, new logger_1.default());
+        handler = new MucJoinHandler(_xmppClientStub);
     });
     it('should exist', () => {
         // arrange

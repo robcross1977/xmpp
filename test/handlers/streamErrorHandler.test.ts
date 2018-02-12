@@ -10,7 +10,7 @@ describe('The StreamErrorHandler class', () => {
     beforeEach(() => {
         const StreamErrorHandler = proxyquire('../../src/handlers/streamErrorHandler', {}).default;
 
-        handler = new StreamErrorHandler(new Logger());
+        handler = new StreamErrorHandler();
     });
 
     it('should exist', () => {

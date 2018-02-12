@@ -4,13 +4,12 @@ const chai_1 = require("chai");
 const sinon = require("sinon");
 const xmpp_1 = require("../src/xmpp");
 const Handler_1 = require("../src/handlers/Handler");
-const logger_1 = require("@murderbeard/logger");
 describe('The Xmpp class', () => {
     let xmpp;
     let handler;
     let logger;
     beforeEach(() => {
-        handler = new Handler_1.default(new logger_1.default());
+        handler = new Handler_1.default();
         xmpp = new xmpp_1.default();
         xmpp._client = {
             create: sinon.spy(),
@@ -112,7 +111,7 @@ describe('The Xmpp class', () => {
         });
         it('should call client.addHandler with the handler passed in', () => {
             // arrange
-            const handler = new Handler_1.default(new logger_1.default());
+            const handler = new Handler_1.default();
             // act
             xmpp.addHandler(handler);
             // assert

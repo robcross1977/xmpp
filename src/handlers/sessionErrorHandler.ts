@@ -1,16 +1,16 @@
 import Handler from './handler';
 import { Subject } from 'rxjs/Subject';
-import Logger from '@murderbeard/logger';
+import logger from '../logger';
 
 export default class SessionErrorHandler extends Handler<string> {
-    constructor(logger: Logger) {
-        super(logger);
+    constructor() {
+        super();
 
         this.name = 'session:error';
     }
 
     handler = (error: any): void => {
-        this._logger.error({ error: error }, this.name);
+        logger.error({ error: error }, this.name);
         
         this.subject.next(this.name);
     };

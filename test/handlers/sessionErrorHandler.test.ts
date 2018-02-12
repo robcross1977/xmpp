@@ -10,7 +10,7 @@ describe('The SessionErrorHandler class', () => {
     beforeEach(() => {
         const SessionErrorHandler = proxyquire('../../src/handlers/sessionErrorHandler', {}).default;
 
-        handler = new SessionErrorHandler(new Logger());
+        handler = new SessionErrorHandler();
     });
 
     it('should exist', () => {

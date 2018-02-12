@@ -9,7 +9,7 @@ describe('The Handler class', () => {
     beforeEach(() => {
         const Handler = proxyquire('../../src/handlers/handler', {}).default;
 
-        handler = new Handler(new Logger());
+        handler = new Handler();
         handler.name = 'test';
     });
 

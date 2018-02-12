@@ -10,7 +10,7 @@ describe('The SessionEndHandler class', () => {
     beforeEach(() => {
         const SessionEndHandler = proxyquire('../../src/handlers/sessionEndHandler', {}).default;
 
-        handler = new SessionEndHandler(new Logger());
+        handler = new SessionEndHandler();
     });
 
     it('should exist', () => {

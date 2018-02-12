@@ -10,7 +10,7 @@ describe('The MucUnavailableHandler class', () => {
     beforeEach(() => {
         const MucUnavailableHandler  = proxyquire('../../src/handlers/mucUnavailableHandler', {}).default;
 
-        handler = new MucUnavailableHandler(new Logger());
+        handler = new MucUnavailableHandler();
     });
 
     it('should exist', () => {

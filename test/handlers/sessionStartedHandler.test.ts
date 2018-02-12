@@ -10,7 +10,7 @@ describe('The SessionStartedHandler class', () => {
     beforeEach(() => {
         const SessionStartedHandler = proxyquire('../../src/handlers/sessionStartedHandler', {}).default;
 
-        handler = new SessionStartedHandler(new Logger());
+        handler = new SessionStartedHandler();
     });
 
     it('should exist', () => {

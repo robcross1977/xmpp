@@ -10,7 +10,7 @@ describe('The StreamEndHandler class', () => {
     beforeEach(() => {
         const StreamEndHandler = proxyquire('../../src/handlers/streamEndHandler', {}).default;
 
-        handler = new StreamEndHandler(new Logger());
+        handler = new StreamEndHandler();
     });
 
     it('should exist', () => {

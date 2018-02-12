@@ -1,14 +1,12 @@
 import * as uuid from 'uuid/v4';
 import Client from '../client';
-import Logger from '@murderbeard/logger';
+import logger from '../logger';
 
 export default class Muc {
     private _client: Client;
-    private _logger: Logger;
 
-    public constructor(client: Client, logger: Logger) {
+    public constructor(client: Client) {
         this._client = client;
-        this._logger = logger;
     }
 
     public createPersistantAnonRoom(nick: string, roomName?: string): Promise<any> {
@@ -22,18 +20,18 @@ export default class Muc {
                     .then((roomName: any) => {
                         this.leaveRoom(roomName, nick);
                         resolve(roomName);
-                        this._logger.info(`${roomName} was created`);
+                        logger.info(`${roomName} was created`);
                     })
                     .catch((err: any) => {
                         this.leaveRoom(roomName || '', nick);
                         reject(err);
-                        this._logger.error({ error: err }, `failed to create ${roomName}`);
+                        logger.error({ error: err }, `failed to create ${roomName}`);
                     });
 
                 this._client.client.joinRoom(roomName, nick); // this is going to get caught in the join muc room handler, follow it there
             } else {
                 reject('session not started');
-                this._logger.error('session not started');
+                logger.error('session not started');
             }
         }); 
     }
@@ -49,7 +47,7 @@ export default class Muc {
             // this will be emitted from  handler/joinedRoomHandler
             // so we know they joined the particular room we made
             this._client.client.on(`${roomName}-joined`, () => {
-                this._logger.debug(`${roomName}-joined`);
+                logger.debug(`${roomName}-joined`);
 
                 this.configurePersistantAnonRoom(roomName, nick)
                     .then(data => resolve(data))
@@ -60,7 +58,7 @@ export default class Muc {
 
     public configurePersistantAnonRoom(roomName: string, nick: string): Promise<any> {
         return new Promise((resolve, reject) => {
-            this._logger.debug(`configuring room ${ roomName }`);
+            logger.debug(`configuring room ${ roomName }`);
 
             this._client.client.configureRoom(roomName, {
                 fields: [
@@ -80,21 +78,21 @@ export default class Muc {
     }
 
     public leaveRoom(roomName: string, nick: string): void {
-        this._logger.debug(`${ nick } leaving room ${ roomName }`);
+        logger.debug(`${ nick } leaving room ${ roomName }`);
 
         this._client.client.leaveRoom(roomName, nick);
     }
 
     public destroyRoom(roomName: string): Promise<any> {
-        this._logger.debug('destroying room', roomName);
+        logger.debug('destroying room', roomName);
 
         return new Promise((resolve, reject) => {
             this._client.client.destroyRoom(roomName, {}, (err: any) => {
                 if(err) {
-                    this._logger.error({ error: err }, 'failed to destory room');
+                    logger.error({ error: err }, 'failed to destory room');
                     reject(err);
                 } else {
-                    this._logger.info(`destoryed room ${ roomName }`);
+                    logger.info(`destoryed room ${ roomName }`);
                     resolve();
                 }
             });

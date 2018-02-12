@@ -4,12 +4,11 @@ const chai_1 = require("chai");
 const sinon = require("sinon");
 const proxyquire = require("proxyquire");
 const handler_1 = require("../../src/handlers/handler");
-const logger_1 = require("@murderbeard/logger");
 describe('The SessionStartedHandler class', () => {
     let handler;
     beforeEach(() => {
         const SessionStartedHandler = proxyquire('../../src/handlers/sessionStartedHandler', {}).default;
-        handler = new SessionStartedHandler(new logger_1.default());
+        handler = new SessionStartedHandler();
     });
     it('should exist', () => {
         // arrange

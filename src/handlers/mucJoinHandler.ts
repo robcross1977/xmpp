@@ -1,20 +1,20 @@
 import Handler from './handler';
 import { Subject } from 'rxjs/Subject';
 import Client from '../client';
-import Logger from '@murderbeard/logger';
+import logger from '../logger';
 
 export default class MucJoinHandler extends Handler<string> {
     private _xmppClient: Client;
 
-    constructor(client: Client, logger: Logger) {
-        super(logger);
+    constructor(client: Client) {
+        super();
 
         this._xmppClient = client;
         this.name = 'muc:join';
     }
  
     handler = (data: any): void => {
-        this._logger.info({ data: data }, this.name);
+        logger.info({ data: data }, this.name);
         
         this.subject.next(this.name);
 

@@ -22,7 +22,7 @@ describe('The MucJoinHandler class', () => {
             '../client': _xmppClientStub
         }).default;
 
-        handler = new MucJoinHandler(_xmppClientStub as Client, new Logger());
+        handler = new MucJoinHandler(_xmppClientStub as Client);
     });
 
     it('should exist', () => {

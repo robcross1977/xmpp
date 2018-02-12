@@ -12,7 +12,7 @@ describe('The Xmpp class', () => {
     let logger: Logger;
 
     beforeEach(() => {
-        handler = new Handler<string>(new Logger());
+        handler = new Handler<string>();
 
         xmpp = new Xmpp();
 
@@ -132,7 +132,7 @@ describe('The Xmpp class', () => {
 
         it('should call client.addHandler with the handler passed in', () => {
             // arrange
-            const handler = new Handler<string>(new Logger());
+            const handler = new Handler<string>();
 
 
             // act

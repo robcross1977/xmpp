@@ -10,7 +10,7 @@ describe('The MucErrorHandler class', () => {
     beforeEach(() => {
         const MucErrorHandler  = proxyquire('../../src/handlers/mucErrorHandler', {}).default;
 
-        handler = new MucErrorHandler(new Logger());
+        handler = new MucErrorHandler();
     });
 
     it('should exist', () => {

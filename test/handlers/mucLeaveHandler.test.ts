@@ -10,7 +10,7 @@ describe('The MucLeaveHandler class', () => {
     beforeEach(() => {
         const MucLeaveHandler  = proxyquire('../../src/handlers/mucLeaveHandler', {}).default;
 
-        handler = new MucLeaveHandler(new Logger());
+        handler = new MucLeaveHandler();
     });
 
     it('should exist', () => {

@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const uuid = require("uuid/v4");
+const logger_1 = require("../logger");
 class Muc {
-    constructor(client, logger) {
+    constructor(client) {
         this._client = client;
-        this._logger = logger;
     }
     createPersistantAnonRoom(nick, roomName) {
         return new Promise((resolve, reject) => {
@@ -16,18 +16,18 @@ class Muc {
                     .then((roomName) => {
                     this.leaveRoom(roomName, nick);
                     resolve(roomName);
-                    this._logger.info(`${roomName} was created`);
+                    logger_1.default.info(`${roomName} was created`);
                 })
                     .catch((err) => {
                     this.leaveRoom(roomName || '', nick);
                     reject(err);
-                    this._logger.error({ error: err }, `failed to create ${roomName}`);
+                    logger_1.default.error({ error: err }, `failed to create ${roomName}`);
                 });
                 this._client.client.joinRoom(roomName, nick); // this is going to get caught in the join muc room handler, follow it there
             }
             else {
                 reject('session not started');
-                this._logger.error('session not started');
+                logger_1.default.error('session not started');
             }
         });
     }
@@ -40,7 +40,7 @@ class Muc {
             // this will be emitted from  handler/joinedRoomHandler
             // so we know they joined the particular room we made
             this._client.client.on(`${roomName}-joined`, () => {
-                this._logger.debug(`${roomName}-joined`);
+                logger_1.default.debug(`${roomName}-joined`);
                 this.configurePersistantAnonRoom(roomName, nick)
                     .then(data => resolve(data))
                     .catch(err => reject(err));
@@ -49,7 +49,7 @@ class Muc {
     }
     configurePersistantAnonRoom(roomName, nick) {
         return new Promise((resolve, reject) => {
-            this._logger.debug(`configuring room ${roomName}`);
+            logger_1.default.debug(`configuring room ${roomName}`);
             this._client.client.configureRoom(roomName, {
                 fields: [
                     { name: 'FORM_TYPE', value: 'http://jabber.org/protocol/muc#roomconfig' },
@@ -68,19 +68,19 @@ class Muc {
         });
     }
     leaveRoom(roomName, nick) {
-        this._logger.debug(`${nick} leaving room ${roomName}`);
+        logger_1.default.debug(`${nick} leaving room ${roomName}`);
         this._client.client.leaveRoom(roomName, nick);
     }
     destroyRoom(roomName) {
-        this._logger.debug('destroying room', roomName);
+        logger_1.default.debug('destroying room', roomName);
         return new Promise((resolve, reject) => {
             this._client.client.destroyRoom(roomName, {}, (err) => {
                 if (err) {
-                    this._logger.error({ error: err }, 'failed to destory room');
+                    logger_1.default.error({ error: err }, 'failed to destory room');
                     reject(err);
                 }
                 else {
-                    this._logger.info(`destoryed room ${roomName}`);
+                    logger_1.default.info(`destoryed room ${roomName}`);
                     resolve();
                 }
             });

@@ -10,7 +10,7 @@ describe('The MucDestroyedHandler class', () => {
     beforeEach(() => {
         const MucDestroyedHandler  = proxyquire('../../src/handlers/mucDestroyedHandler', {}).default;
 
-        handler = new MucDestroyedHandler(new Logger());
+        handler = new MucDestroyedHandler();
     });
 
     it('should exist', () => {

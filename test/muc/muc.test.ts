@@ -42,7 +42,7 @@ describe('The Muc class', () => {
             'uuid/v4': uuidStub
         }).default;
 
-        muc = new Muc(clientStub, new Logger());
+        muc = new Muc(clientStub);
     });
 
     it('should exist', () => {

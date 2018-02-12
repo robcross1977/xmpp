@@ -10,7 +10,7 @@ describe('The AuthFailedHandler class', () => {
     beforeEach(() => {
         const AuthFailedHandler = proxyquire('../../src/handlers/authFailedHandler', {}).default;
 
-        handler = new AuthFailedHandler(new Logger());
+        handler = new AuthFailedHandler();
     });
 
     it('should exist', () => {
