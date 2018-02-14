@@ -3,6 +3,7 @@
 dist/test/client.test.js
 dist/test/xmpp.test.js
 dist/test/handlers/handler.test.js
+dist/test/handlers/joinedSpecificRoomHandler.test.js
 dist/test/handlers/authFailedHandler.test.js
 dist/test/handlers/authSuccessHandler.test.js
 dist/test/handlers/connectedHandler.test.js

@@ -1,11 +1,9 @@
 import Client from '../client';
+import { Observable } from 'rxjs/Observable';
 export default class Muc {
     private _client;
+    private _anonRoomFactory;
     constructor(client: Client);
-    createPersistantAnonRoom(nick: string, roomName?: string): Promise<any>;
-    generateRandomRoomName(mucDomain?: string): string;
-    private _handleJoinedThisPersistantAnonRoom(roomName, nick);
-    configurePersistantAnonRoom(roomName: string, nick: string): Promise<any>;
-    leaveRoom(roomName: string, nick: string): void;
-    destroyRoom(roomName: string): Promise<any>;
+    createAnonRoom(nick: string, roomName?: string): Observable<any>;
+    destroyRoom(roomName: string): Observable<any>;
 }

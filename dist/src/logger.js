@@ -11,7 +11,7 @@ const logger = new logger_1.default({
 });
 if (process.env['NODE_ENV'] === 'dev') {
     logger.addStream({
-        level: 'debug',
+        level: 'info',
         stream: process.stdout
     });
     logger.addStream({

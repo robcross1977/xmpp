@@ -8,6 +8,7 @@ class MucJoinHandler extends handler_1.default {
         this.handler = (data) => {
             logger_1.default.info({ data: data }, this.name);
             this.subject.next(this.name);
+            // when we join a specific room we want to be able to have event data about it while it exists
             this._xmppClient.client.emit(`${data.from.bare}-joined`);
         };
         this._xmppClient = client;

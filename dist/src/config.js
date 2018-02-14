@@ -1,0 +1,25 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const logger_1 = require("./logger");
+class Config {
+    constructor() {
+        this._configs = {
+            dev: {
+                createAnonRoomTimeout: 2000,
+                createAnonRoomRetryCount: 3
+            }
+        };
+    }
+    getConfig(environment) {
+        if (environment in this._configs) {
+            return this._configs[environment];
+        }
+        else {
+            throw new Error('config not found');
+        }
+    }
+}
+;
+logger_1.default.info({ env: process.env.NODE_ENV }, 'getting config');
+exports.default = new Config().getConfig(process.env.NODE_ENV || 'dev');
+//# sourceMappingURL=config.js.map

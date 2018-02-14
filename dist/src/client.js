@@ -25,6 +25,7 @@ class Client {
         this._client.disconnect();
     }
     addHandler(handler) {
+        console.log(handler.name);
         if (!(handler.name in this._handlers)) {
             this._handlers[handler.name] = handler;
             this._bindHandlerToThis(handler);

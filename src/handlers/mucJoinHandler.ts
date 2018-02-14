@@ -1,6 +1,7 @@
 import Handler from './handler';
 import { Subject } from 'rxjs/Subject';
 import Client from '../client';
+import JoinedSpecificRoomHandler from './joinedSpecificRoomHandler';
 import logger from '../logger';
 
 export default class MucJoinHandler extends Handler<string> {
@@ -18,6 +19,7 @@ export default class MucJoinHandler extends Handler<string> {
         
         this.subject.next(this.name);
 
-        this._xmppClient.client.emit(`${data.from.bare}-joined`)
+        // when we join a specific room we want to be able to have event data about it while it exists
+        this._xmppClient.client.emit(`${data.from.bare}-joined`);
     };
 }

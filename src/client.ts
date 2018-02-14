@@ -37,6 +37,7 @@ export default class Client {
     }
 
     public addHandler(handler: Handler<any>): void {
+        console.log(handler.name);
         if(!(handler.name in this._handlers)) {
             this._handlers[handler.name] = handler;
 

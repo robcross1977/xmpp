@@ -40,3 +40,11 @@ xmpp.subscribe('disconnected').subscribe({
 
 xmpp.connect();
 ```
+
+
+# EventHandlers
+So I switched this over to using Observers instead of EventEmitters for some of the "collection" type functions and the fact that xmpp sometimes requires you to treat several requests as one and functions like switchMap and the like make this happen.
+
+What I do, is I have a handler for the type of events that Stanza.io emits that I am interested in (there are others I don't catch). When I recieve one of these from the stanza client I call the Observer.next on the Observer it is tied to so that you can use them as collections.
+
+Please note, I have a funky thing in the mucJoinHandler. When you join a muc room I need it to fire so I can handle some other events, for instance, leaving the room I just configured becasue there is a limit to how many rooms a single user can be in and I am making all of the rooms with the same user. 
