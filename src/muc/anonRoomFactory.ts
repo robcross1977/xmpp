@@ -10,6 +10,7 @@ import JoinedSpecificRoomHandler from '../handlers/joinedSpecificRoomHandler';
 import Client from '../client';
 import logger from '../logger';
 import config from '../config';
+import { Observer } from 'rxjs/Observer';
 
 export default class AnonRoomFactory {
     private _client: Client;
@@ -18,26 +19,24 @@ export default class AnonRoomFactory {
         this._client = client;
     }
 
-    public createAnonRoom(nick: string, roomName?: string): Promise<any> {
-        return new Promise((resolve, reject) => {
+    public createAnonRoom(nick: string, roomName?: string): Observable<any> {
+        return Observable.create((observer: Observer<any>) => {
             const finalRoomName = this._getFinalRoomname(roomName);
             const joinedRoom$ = this._handleJoinedAnonRoom(finalRoomName, nick);
-            const configureRoom$ = Observable.defer(() => {
-                return fromPromise(this._configureRoom(finalRoomName, nick));
-            });
+            const configureRoom$ = this._configureRoom(finalRoomName, nick);
 
             concat(joinedRoom$, configureRoom$).timeout(config.createAnonRoomTimeout).retry(config.createAnonRoomRetryCount)
                 .subscribe({
-                    next: () => {},
+                    next: (data) => { observer.next(data); },
                     error: (error: any) => {
                         logger.error({ error: error, roomName: roomName }, 'An error occured while creating room');
                         this._cleanUpJoinRoom(finalRoomName, nick);
-                        reject(error);
+                        observer.error(error);
                     },
                     complete: () => {
                         logger.info({ roomName: roomName }, 'Completed creating room');
                         this._cleanUpJoinRoom(finalRoomName, nick);
-                        resolve(roomName);
+                        observer.complete();
                     }
                 });
             
@@ -56,7 +55,7 @@ export default class AnonRoomFactory {
         return roomName;
     }
 
-    private _cleanUpJoinRoom(roomName: string, nick: string) {
+    private _cleanUpJoinRoom(roomName: string, nick: string): void {
         this._client.removeHandler(`${roomName}-joined`);
         this.leaveRoom(roomName, nick);
     }
@@ -66,8 +65,8 @@ export default class AnonRoomFactory {
         return this._client.getHandler(`${roomName}-joined`).subject; // a subject is a multi-cast observable
     }
 
-    private _configureRoom(roomName: string, nick: string): Promise<any> {
-        return new Promise((resolve, reject) => {
+    private _configureRoom(roomName: string, nick: string): Observable<any> {
+        return Observable.create((observer: Observer<any>) => {
             logger.debug(`configuring room ${ roomName }`);
 
             this._client.client.configureRoom(roomName, {
@@ -77,11 +76,13 @@ export default class AnonRoomFactory {
                     { name: 'muc#roomconfig_publicroom', value: '0' },
                     { name: 'muc#roomconfig_persistentroom', value: '1' }
                 ]
-            }, (err: any) => {
+            }, 
+            (err: any) => {
                 if(err) {
-                    reject(err);
+                    observer.error(err);
                 } else {
-                    resolve(roomName);
+                    observer.next(roomName);
+                    observer.complete();
                 }
             });
         });
@@ -96,14 +97,15 @@ export default class AnonRoomFactory {
     public destroyRoom(roomName: string): Promise<any> {
         logger.debug('destroying room', roomName);
 
-        return new Promise((resolve, reject) => {
+        return Observable.create((observer: Observer<any>) => {
             this._client.client.destroyRoom(roomName, {}, (err: any) => {
                 if(err) {
                     logger.error({ error: err }, 'failed to destory room');
-                    reject(err);
+                    observer.error(err);
                 } else {
                     logger.info(`destroyed room ${ roomName }`);
-                    resolve();
+                    observer.next(`destroyed room ${ roomName }`);
+                    observer.complete();
                 }
             });
         });   

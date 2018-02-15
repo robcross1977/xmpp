@@ -79,7 +79,7 @@ export default class Xmpp {
     }
 }
 
-/*
+
 import 'rxjs/add/operator/first';
 import { concat } from 'rxjs/observable/concat';
 
@@ -100,4 +100,4 @@ concat(xmpp.subject('session:started').first(), xmpp.muc.createAnonRoom('admin')
     })
 
 xmpp.connect();
-*/
+

@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/timeout';
 import 'rxjs/add/operator/retry';
 import 'rxjs/add/observable/defer';
@@ -5,7 +6,7 @@ import Client from '../client';
 export default class AnonRoomFactory {
     private _client;
     constructor(client: Client);
-    createAnonRoom(nick: string, roomName?: string): Promise<any>;
+    createAnonRoom(nick: string, roomName?: string): Observable<any>;
     private _getFinalRoomname(roomName, mucDomain?);
     private _cleanUpJoinRoom(roomName, nick);
     private _handleJoinedAnonRoom(roomName, nick);

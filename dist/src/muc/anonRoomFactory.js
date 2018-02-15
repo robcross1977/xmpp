@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const uuid = require("uuid/v4");
 const Observable_1 = require("rxjs/Observable");
-const fromPromise_1 = require("rxjs/observable/fromPromise");
 const concat_1 = require("rxjs/observable/concat");
 require("rxjs/add/operator/timeout");
 require("rxjs/add/operator/retry");
@@ -15,24 +14,22 @@ class AnonRoomFactory {
         this._client = client;
     }
     createAnonRoom(nick, roomName) {
-        return new Promise((resolve, reject) => {
+        return Observable_1.Observable.create((observer) => {
             const finalRoomName = this._getFinalRoomname(roomName);
             const joinedRoom$ = this._handleJoinedAnonRoom(finalRoomName, nick);
-            const configureRoom$ = Observable_1.Observable.defer(() => {
-                return fromPromise_1.fromPromise(this._configureRoom(finalRoomName, nick));
-            });
+            const configureRoom$ = this._configureRoom(finalRoomName, nick);
             concat_1.concat(joinedRoom$, configureRoom$).timeout(config_1.default.createAnonRoomTimeout).retry(config_1.default.createAnonRoomRetryCount)
                 .subscribe({
-                next: () => { },
+                next: (data) => { observer.next(data); },
                 error: (error) => {
                     logger_1.default.error({ error: error, roomName: roomName }, 'An error occured while creating room');
                     this._cleanUpJoinRoom(finalRoomName, nick);
-                    reject(error);
+                    observer.error(error);
                 },
                 complete: () => {
                     logger_1.default.info({ roomName: roomName }, 'Completed creating room');
                     this._cleanUpJoinRoom(finalRoomName, nick);
-                    resolve(roomName);
+                    observer.complete();
                 }
             });
             // This actually starts the observable train we set up just prior
@@ -56,7 +53,7 @@ class AnonRoomFactory {
         return this._client.getHandler(`${roomName}-joined`).subject; // a subject is a multi-cast observable
     }
     _configureRoom(roomName, nick) {
-        return new Promise((resolve, reject) => {
+        return Observable_1.Observable.create((observer) => {
             logger_1.default.debug(`configuring room ${roomName}`);
             this._client.client.configureRoom(roomName, {
                 fields: [
@@ -67,10 +64,11 @@ class AnonRoomFactory {
                 ]
             }, (err) => {
                 if (err) {
-                    reject(err);
+                    observer.error(err);
                 }
                 else {
-                    resolve(roomName);
+                    observer.next(roomName);
+                    observer.complete();
                 }
             });
         });
@@ -81,15 +79,16 @@ class AnonRoomFactory {
     }
     destroyRoom(roomName) {
         logger_1.default.debug('destroying room', roomName);
-        return new Promise((resolve, reject) => {
+        return Observable_1.Observable.create((observer) => {
             this._client.client.destroyRoom(roomName, {}, (err) => {
                 if (err) {
                     logger_1.default.error({ error: err }, 'failed to destory room');
-                    reject(err);
+                    observer.error(err);
                 }
                 else {
                     logger_1.default.info(`destroyed room ${roomName}`);
-                    resolve();
+                    observer.next(`destroyed room ${roomName}`);
+                    observer.complete();
                 }
             });
         });

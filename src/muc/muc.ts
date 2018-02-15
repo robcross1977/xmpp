@@ -4,6 +4,7 @@ import logger from '../logger';
 import AnonRoomFactory from './anonRoomFactory';
 import { Observable } from 'rxjs/Observable';
 import { fromPromise } from 'rxjs/observable/fromPromise';
+import { Observer } from 'rxjs/Observer';
 
 export default class Muc {
     private _client: Client;
@@ -15,14 +16,10 @@ export default class Muc {
     }
 
     public createAnonRoom(nick: string, roomName?: string): Observable<any> {
-        return Observable.defer(() => {
-            return fromPromise(this._anonRoomFactory.createAnonRoom(nick, roomName))
-        });
+        return this._anonRoomFactory.createAnonRoom(nick, roomName);
     }
 
     public destroyRoom(roomName: string): Observable<any> {
-        return Observable.defer(() => {
-            return fromPromise(this._anonRoomFactory.destroyRoom(roomName));
-        });
+        return fromPromise(this._anonRoomFactory.destroyRoom(roomName));
     }
 }
