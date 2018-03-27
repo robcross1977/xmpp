@@ -68,7 +68,7 @@ export default class Xmpp {
     public removeHandler = (name: string): any => this._client.removeHandler(name);
 }
 
-
+/*
 import 'rxjs/add/operator/first';
 import { concat } from 'rxjs/observable/concat';
 
@@ -96,3 +96,4 @@ concat(
 })
 
 xmpp.connect();
+*/
