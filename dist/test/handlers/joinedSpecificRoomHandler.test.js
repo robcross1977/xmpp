@@ -9,7 +9,6 @@ describe('The JoinedSpecificRoomHandler class', () => {
     beforeEach(() => {
         const JoinedSpecificRoomHandler = proxyquire('../../src/handlers/joinedSpecificRoomHandler', {}).default;
         handler = new JoinedSpecificRoomHandler('testRoom');
-        console.log(handler);
     });
     it('should exist', () => {
         // arrange

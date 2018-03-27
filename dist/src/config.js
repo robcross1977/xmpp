@@ -6,7 +6,8 @@ class Config {
         this._configs = {
             dev: {
                 createAnonRoomTimeout: 2000,
-                createAnonRoomRetryCount: 3
+                createAnonRoomRetryCount: 3,
+                defaultNick: 'daemon'
             }
         };
     }

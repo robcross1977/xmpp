@@ -7,6 +7,7 @@ import { PassThrough } from 'stream';
 
 describe('The Client class', async () => {
     let client: any;
+    let clientStub: any;
     let stanzaIOStub: any;
     let connectOptions: ConnectionOptions;
 
@@ -18,10 +19,19 @@ describe('The Client class', async () => {
             wsURL: 'ws://murderbeard.com:5280/websocket'
         };
 
-        stanzaIOStub = {
-            createClient: sinon.stub().returns(new EventEmitter()),
-            connect: sinon.spy(),
+        class ClientStub extends EventEmitter {
+            public connect = sinon.spy();
+            public disconnect = sinon.spy();
+            public joinRoom = sinon.spy();
+            public configureRoom = sinon.spy();
+            public leaveRoom = sinon.spy();
         }
+
+        clientStub = new ClientStub();
+
+        stanzaIOStub = {
+            createClient: sinon.stub().returns(clientStub)
+        };
     });
 
     // Set up the main module
@@ -38,22 +48,19 @@ describe('The Client class', async () => {
         // act
         // assert
         expect(client).to.exist;
-    });
-    
-    describe('The sesionStarted member', () => {
+    }); 
+
+    describe('the client property', () => {
+        beforeEach(() => {
+            client.create(connectOptions); // this won't work unless the client is created
+        });
+
         it('should exist', () => {
             // arrange
             // act
             // assert
-            expect(client.sessionStarted).to.exist;
+            expect(client.client).to.exist;
         });
-
-        it('should be initially set to false', () => {
-            // arrange
-            // act
-            // assert
-            expect(client.sessionStarted).to.be.false;
-        })
     });
 
     describe('The create method', () => {
@@ -75,20 +82,46 @@ describe('The Client class', async () => {
     });
 
     describe('The connect method', () => {
+        beforeEach(() => {
+            client.create(connectOptions); // this won't work unless the client is created
+        }); 
+
         it('should exist', () => {
             // arrange
             // act
             // assert
             expect(client.connect).to.exist;
         });
+
+        it('should call connect', () => {
+            // arrange
+            // act
+            client.connect();
+
+            // assert
+            expect(clientStub.connect.called).to.be.true;
+        });
     });
 
     describe('The disconnect method', () => {
+        beforeEach(() => {
+            client.create(connectOptions); // this won't work unless the client is created
+        }); 
+
         it('should exist', () => {
             // arrange
             // act
             // assert
             expect(client.disconnect).to.exist;
+        });
+
+        it('should tell xmpp it wants to disconnect', () => {
+            // arrange
+            // act
+            client.disconnect();
+
+            // assert
+            expect(clientStub.disconnect.called).to.be.true;
         });
     });
 
@@ -228,6 +261,82 @@ describe('The Client class', async () => {
 
             // assert
             expect(client.getHandler(handler.name)).to.not.exist;
+        });
+    });
+
+    describe('The joinRoom method', () => {
+        beforeEach(() => {
+            client.create(connectOptions); // this won't work unless the client is created
+        });
+
+        it('should exist', () => {
+            // arrange
+            // act
+            // assert
+            expect(client.joinRoom).to.exist;
+        });
+
+        it('should join a room', () => {
+            // arrange
+            const roomName = 'test-room';
+            const nick = 'admin';
+
+            // act
+            client.joinRoom(roomName, nick);
+
+            // assert
+            expect(clientStub.joinRoom.calledWithExactly(roomName, nick));
+        });
+    });
+
+    describe('the configureRoom method', () => {
+        beforeEach(() => {
+            client.create(connectOptions); // this won't work unless the client is created
+        });
+
+        it('should exist', () => {
+            // arrange
+            // act
+            // assert
+            expect(client.configureRoom).to.exist;
+        });
+
+        it('should configure the room', () => {
+            // arrange
+            const roomName = 'test-room';
+            const options = { test: 'test' };
+            const callback = () => {};
+
+            // act
+            client.configureRoom(roomName, options, callback);
+
+            // assert
+            expect(clientStub.configureRoom.calledWithExactly(roomName, options, callback)).to.be.true;
+        });
+    });
+
+    describe('the leaveRoom method', () => {
+        beforeEach(() => {
+            client.create(connectOptions); // this won't work unless the client is created
+        });
+
+        it('should exist', () => {
+            // arrange
+            // act
+            // assert
+            expect(client.leaveRoom).to.exist;
+        });
+
+        it('should leave the room', () => {
+            // arrange
+            const roomName = 'testRoom';
+            const nick = 'admin';
+
+            // act
+            client.leaveRoom(roomName, nick);
+
+            // assert
+            expect(clientStub.leaveRoom.calledWithExactly(roomName, nick));
         });
     });
 });

@@ -1,16 +1,17 @@
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs/observable';
 import 'rxjs/add/operator/timeout';
 import 'rxjs/add/operator/retry';
-import 'rxjs/add/observable/defer';
 import Client from '../client';
 export default class AnonRoomFactory {
     private _client;
     constructor(client: Client);
-    createAnonRoom(nick: string, roomName?: string): Observable<any>;
-    private _getFinalRoomname(roomName, mucDomain?);
+    readonly client: Client;
+    create: (nick: string, roomName?: string | undefined) => Observable<any>;
+    private _getRoomname;
     private _cleanUpJoinRoom(roomName, nick);
-    private _handleJoinedAnonRoom(roomName, nick);
-    private _configureRoom(roomName, nick);
-    leaveRoom(roomName: string, nick: string): void;
-    destroyRoom(roomName: string): Promise<any>;
+    private _createJoinedSpecificRoomHandler;
+    joinRoom: (roomName: string, nick: string) => void;
+    configureRoom(roomName: string, nick: string): Observable<any>;
+    leaveRoom: (roomName: string, nick: string) => void;
+    destroyRoom: (roomName: string) => Observable<any>;
 }

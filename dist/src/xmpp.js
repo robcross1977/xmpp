@@ -19,6 +19,11 @@ const streamEndHandler_1 = require("./handlers/streamEndHandler");
 const muc_1 = require("./muc/muc");
 class Xmpp {
     constructor() {
+        this.connect = () => this._client.connect();
+        this.disconnect = () => this._client.disconnect();
+        this.subject = (name) => this._client.getHandler(name).subject;
+        this.addHandler = (handler) => this._client.addHandler(handler);
+        this.removeHandler = (name) => this._client.removeHandler(name);
         this._client = new client_1.default();
         this._muc = new muc_1.default(this._client);
     }
@@ -48,21 +53,6 @@ class Xmpp {
         this._client.create(options);
         this._setupHandlers();
     }
-    connect() {
-        this._client.connect();
-    }
-    disconnect() {
-        this._client.disconnect();
-    }
-    subject(name) {
-        return this._client.getHandler(name).subject;
-    }
-    addHandler(handler) {
-        this._client.addHandler(handler);
-    }
-    removeHandler(name) {
-        this._client.removeHandler(name);
-    }
 }
 exports.default = Xmpp;
 require("rxjs/add/operator/first");
@@ -74,11 +64,16 @@ xmpp.create({
     transport: 'websocket',
     wsURL: 'ws://murderbeard.com:5280/websocket'
 });
-concat_1.concat(xmpp.subject('session:started').first(), xmpp.muc.createAnonRoom('admin'))
+concat_1.concat(xmpp.subject('session:started').first(), xmpp.muc.createAnonRoom('admin')
+//xmpp.muc.destroyRoom('fdd00fed-e03d-4536-ab28-67b8d9c5db28@conference.murderbeard.com'),
+)
     .subscribe({
     next: () => { },
     error: (error) => { console.error({ error: error }, "some weird fucking error happened"); },
-    complete: () => { console.log("the whole app is complete"); }
+    complete: () => {
+        console.log("the whole app is complete");
+        process.exit(0);
+    }
 });
 xmpp.connect();
 //# sourceMappingURL=xmpp.js.map

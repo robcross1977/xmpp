@@ -4,6 +4,6 @@ export default class Muc {
     private _client;
     private _anonRoomFactory;
     constructor(client: Client);
-    createAnonRoom(nick: string, roomName?: string): Observable<any>;
-    destroyRoom(roomName: string): Observable<any>;
+    createAnonRoom: (nick: string, roomName?: string | undefined) => Observable<any>;
+    destroyRoom: (roomName: string) => Observable<any>;
 }

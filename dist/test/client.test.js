@@ -14,6 +14,7 @@ const proxyquire = require("proxyquire");
 const events_1 = require("events");
 describe('The Client class', () => __awaiter(this, void 0, void 0, function* () {
     let client;
+    let clientStub;
     let stanzaIOStub;
     let connectOptions;
     beforeEach(() => {
@@ -23,9 +24,19 @@ describe('The Client class', () => __awaiter(this, void 0, void 0, function* () 
             transport: 'websocket',
             wsURL: 'ws://murderbeard.com:5280/websocket'
         };
+        class ClientStub extends events_1.EventEmitter {
+            constructor() {
+                super(...arguments);
+                this.connect = sinon.spy();
+                this.disconnect = sinon.spy();
+                this.joinRoom = sinon.spy();
+                this.configureRoom = sinon.spy();
+                this.leaveRoom = sinon.spy();
+            }
+        }
+        clientStub = new ClientStub();
         stanzaIOStub = {
-            createClient: sinon.stub().returns(new events_1.EventEmitter()),
-            connect: sinon.spy(),
+            createClient: sinon.stub().returns(clientStub)
         };
     });
     // Set up the main module
@@ -41,18 +52,15 @@ describe('The Client class', () => __awaiter(this, void 0, void 0, function* () 
         // assert
         chai_1.expect(client).to.exist;
     });
-    describe('The sesionStarted member', () => {
+    describe('the client property', () => {
+        beforeEach(() => {
+            client.create(connectOptions); // this won't work unless the client is created
+        });
         it('should exist', () => {
             // arrange
             // act
             // assert
-            chai_1.expect(client.sessionStarted).to.exist;
-        });
-        it('should be initially set to false', () => {
-            // arrange
-            // act
-            // assert
-            chai_1.expect(client.sessionStarted).to.be.false;
+            chai_1.expect(client.client).to.exist;
         });
     });
     describe('The create method', () => {
@@ -71,19 +79,39 @@ describe('The Client class', () => __awaiter(this, void 0, void 0, function* () 
         });
     });
     describe('The connect method', () => {
+        beforeEach(() => {
+            client.create(connectOptions); // this won't work unless the client is created
+        });
         it('should exist', () => {
             // arrange
             // act
             // assert
             chai_1.expect(client.connect).to.exist;
         });
+        it('should call connect', () => {
+            // arrange
+            // act
+            client.connect();
+            // assert
+            chai_1.expect(clientStub.connect.called).to.be.true;
+        });
     });
     describe('The disconnect method', () => {
+        beforeEach(() => {
+            client.create(connectOptions); // this won't work unless the client is created
+        });
         it('should exist', () => {
             // arrange
             // act
             // assert
             chai_1.expect(client.disconnect).to.exist;
+        });
+        it('should tell xmpp it wants to disconnect', () => {
+            // arrange
+            // act
+            client.disconnect();
+            // assert
+            chai_1.expect(clientStub.disconnect.called).to.be.true;
         });
     });
     describe('The addHandler method', () => {
@@ -120,7 +148,7 @@ describe('The Client class', () => __awaiter(this, void 0, void 0, function* () 
                 handler: () => { }
             };
             // act
-            try {
+            try { // this will throw an error for sure
                 client.addHandler(original);
                 client.addHandler(attemptToOverWrite); // this one has same name and shouldn't overwrite
             }
@@ -201,6 +229,67 @@ describe('The Client class', () => __awaiter(this, void 0, void 0, function* () 
             client.removeHandler(handler.name);
             // assert
             chai_1.expect(client.getHandler(handler.name)).to.not.exist;
+        });
+    });
+    describe('The joinRoom method', () => {
+        beforeEach(() => {
+            client.create(connectOptions); // this won't work unless the client is created
+        });
+        it('should exist', () => {
+            // arrange
+            // act
+            // assert
+            chai_1.expect(client.joinRoom).to.exist;
+        });
+        it('should join a room', () => {
+            // arrange
+            const roomName = 'test-room';
+            const nick = 'admin';
+            // act
+            client.joinRoom(roomName, nick);
+            // assert
+            chai_1.expect(clientStub.joinRoom.calledWithExactly(roomName, nick));
+        });
+    });
+    describe('the configureRoom method', () => {
+        beforeEach(() => {
+            client.create(connectOptions); // this won't work unless the client is created
+        });
+        it('should exist', () => {
+            // arrange
+            // act
+            // assert
+            chai_1.expect(client.configureRoom).to.exist;
+        });
+        it('should configure the room', () => {
+            // arrange
+            const roomName = 'test-room';
+            const options = { test: 'test' };
+            const callback = () => { };
+            // act
+            client.configureRoom(roomName, options, callback);
+            // assert
+            chai_1.expect(clientStub.configureRoom.calledWithExactly(roomName, options, callback)).to.be.true;
+        });
+    });
+    describe('the leaveRoom method', () => {
+        beforeEach(() => {
+            client.create(connectOptions); // this won't work unless the client is created
+        });
+        it('should exist', () => {
+            // arrange
+            // act
+            // assert
+            chai_1.expect(client.leaveRoom).to.exist;
+        });
+        it('should leave the room', () => {
+            // arrange
+            const roomName = 'testRoom';
+            const nick = 'admin';
+            // act
+            client.leaveRoom(roomName, nick);
+            // assert
+            chai_1.expect(clientStub.leaveRoom.calledWithExactly(roomName, nick));
         });
     });
 }));

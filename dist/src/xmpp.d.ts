@@ -9,10 +9,10 @@ export default class Xmpp {
     readonly muc: Muc;
     private _setupHandlers();
     create(options: ConnectionOptions): void;
-    connect(): void;
-    disconnect(): void;
-    subject(name: string): Subject<any>;
-    addHandler(handler: Handler<any>): void;
-    removeHandler(name: string): void;
+    connect: () => void;
+    disconnect: () => void;
+    subject: (name: string) => Subject<any>;
+    addHandler: (handler: Handler<any>) => Handler<any>;
+    removeHandler: (name: string) => any;
 }
 import 'rxjs/add/operator/first';

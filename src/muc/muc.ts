@@ -15,11 +15,11 @@ export default class Muc {
         this._anonRoomFactory = new AnonRoomFactory(this._client);
     }
 
-    public createAnonRoom(nick: string, roomName?: string): Observable<any> {
-        return this._anonRoomFactory.createAnonRoom(nick, roomName);
-    }
+    public createAnonRoom =
+        (nick: string, roomName?: string): Observable<any> =>
+            this._anonRoomFactory.create(nick, roomName);
 
-    public destroyRoom(roomName: string): Observable<any> {
-        return fromPromise(this._anonRoomFactory.destroyRoom(roomName));
-    }
+    public destroyRoom =
+        (roomName: string): Observable<any> =>
+            this._anonRoomFactory.destroyRoom(roomName);
 }

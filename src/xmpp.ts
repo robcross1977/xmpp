@@ -54,29 +54,18 @@ export default class Xmpp {
 
     public create(options: ConnectionOptions): void {
         this._client.create(options);
-        
         this._setupHandlers();
     }
 
-    public connect(): void {
-        this._client.connect();
-    }
+    public connect = (): void => this._client.connect();
 
-    public disconnect(): void {
-        this._client.disconnect();
-    }
+    public disconnect = (): void => this._client.disconnect();
 
-    public subject(name: string): Subject<any> {
-        return this._client.getHandler(name).subject;
-    }
+    public subject = (name: string): Subject<any> => this._client.getHandler(name).subject;
 
-    public addHandler(handler: Handler<any>) {
-        this._client.addHandler(handler);
-    }
+    public addHandler = (handler: Handler<any>): Handler<any> => this._client.addHandler(handler);
 
-    public removeHandler(name: string) {
-        this._client.removeHandler(name);
-    }
+    public removeHandler = (name: string): any => this._client.removeHandler(name);
 }
 
 
@@ -92,12 +81,18 @@ xmpp.create({
     wsURL: 'ws://murderbeard.com:5280/websocket'
 });
 
-concat(xmpp.subject('session:started').first(), xmpp.muc.createAnonRoom('admin'))
-    .subscribe({
-        next: () => {},
-        error: (error: any) => { console.error({error: error}, "some weird fucking error happened")},
-        complete: () => { console.log("the whole app is complete")}
-    })
+concat(
+    xmpp.subject('session:started').first(),
+    xmpp.muc.createAnonRoom('admin')
+    //xmpp.muc.destroyRoom('fdd00fed-e03d-4536-ab28-67b8d9c5db28@conference.murderbeard.com'),
+)
+.subscribe({
+    next: () => {},
+    error: (error: any) => { console.error({error: error}, "some weird fucking error happened")},
+    complete: () => { 
+        console.log("the whole app is complete");
+        process.exit(0);
+    }
+})
 
 xmpp.connect();
-

@@ -11,7 +11,6 @@ export default class JoinedSpecificRoomHandler extends Handler<string> {
  
     handler = (data: any): void => {
         logger.info({ data: data }, this.name);
-        
         this.subject.next(this.name);
         
         // We need to complete it so that it moves on to the next

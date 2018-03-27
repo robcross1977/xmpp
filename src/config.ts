@@ -2,14 +2,16 @@ import logger from './logger';
 
 export interface XmppConfig {
     createAnonRoomTimeout: number,
-    createAnonRoomRetryCount: number
+    createAnonRoomRetryCount: number,
+    defaultNick: string
 }
 
 class Config {
    private _configs: { [configName: string]: XmppConfig } = {
        dev: {
             createAnonRoomTimeout: 2000,
-            createAnonRoomRetryCount: 3
+            createAnonRoomRetryCount: 3,
+            defaultNick: 'daemon'
        }
    }
 
