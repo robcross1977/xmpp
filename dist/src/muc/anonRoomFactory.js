@@ -39,10 +39,7 @@ class AnonRoomFactory {
             `${uuid()}${!!mucDomain ? mucDomain : '@conference.murderbeard.com'}`;
         this._createJoinedSpecificRoomHandler = (roomName, nick) => this._client.addHandler(new joinedSpecificRoomHandler_1.default(roomName)).subject;
         this.joinRoom = (roomName, nick) => this._client.joinRoom(roomName, nick);
-        this.leaveRoom = (roomName, nick) => {
-            this._client.leaveRoom(roomName, nick);
-            console.log('Called leave room');
-        };
+        this.leaveRoom = (roomName, nick) => this._client.leaveRoom(roomName, nick);
         this.destroyRoom = (roomName) => this._client.destroyRoom(roomName);
         this._client = client;
     }

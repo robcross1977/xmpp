@@ -15,4 +15,3 @@ export default class Xmpp {
     addHandler: (handler: Handler<any>) => Handler<any>;
     removeHandler: (name: string) => any;
 }
-import 'rxjs/add/operator/first';

@@ -55,25 +55,33 @@ class Xmpp {
     }
 }
 exports.default = Xmpp;
-require("rxjs/add/operator/first");
-const concat_1 = require("rxjs/observable/concat");
+/*
+import 'rxjs/add/operator/first';
+import { concat } from 'rxjs/observable/concat';
+
 const xmpp = new Xmpp();
+
 xmpp.create({
     jid: 'admin@murderbeard.com',
     password: 'd00d0012',
     transport: 'websocket',
     wsURL: 'ws://murderbeard.com:5280/websocket'
 });
-concat_1.concat(xmpp.subject('session:started').first(), xmpp.muc.createAnonRoom('admin')
-//xmpp.muc.destroyRoom('fdd00fed-e03d-4536-ab28-67b8d9c5db28@conference.murderbeard.com'),
+
+concat(
+    xmpp.subject('session:started').first(),
+    xmpp.muc.createAnonRoom('admin')
+    //xmpp.muc.destroyRoom('fdd00fed-e03d-4536-ab28-67b8d9c5db28@conference.murderbeard.com'),
 )
-    .subscribe({
-    next: () => { },
-    error: (error) => { console.error({ error: error }, "some weird fucking error happened"); },
+.subscribe({
+    next: () => {},
+    error: (error: any) => { console.error({error: error}, "some weird fucking error happened")},
     complete: () => {
         console.log("the whole app is complete");
         process.exit(0);
     }
-});
+})
+
 xmpp.connect();
+*/ 
 //# sourceMappingURL=xmpp.js.map
