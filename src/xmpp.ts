@@ -67,33 +67,3 @@ export default class Xmpp {
 
     public removeHandler = (name: string): any => this._client.removeHandler(name);
 }
-
-/*
-import 'rxjs/add/operator/first';
-import { concat } from 'rxjs/observable/concat';
-
-const xmpp = new Xmpp();
-
-xmpp.create({
-    jid: 'admin@murderbeard.com',
-    password: 'd00d0012',
-    transport: 'websocket',
-    wsURL: 'ws://murderbeard.com:5280/websocket'
-});
-
-concat(
-    xmpp.subject('session:started').first(),
-    xmpp.muc.createAnonRoom('admin')
-    //xmpp.muc.destroyRoom('31118f48-8aed-440f-aba6-a2412d5b2ff4@conference.murderbeard.com')
-)
-.subscribe({
-    next: () => {},
-    error: (error: any) => { console.error({error: error}, "some weird fucking error happened")},
-    complete: () => { 
-        console.log("the whole app is complete");
-        //process.exit(0);
-    }
-})
-
-xmpp.connect();
-*/
