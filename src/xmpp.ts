@@ -84,14 +84,14 @@ xmpp.create({
 concat(
     xmpp.subject('session:started').first(),
     xmpp.muc.createAnonRoom('admin')
-    //xmpp.muc.destroyRoom('fdd00fed-e03d-4536-ab28-67b8d9c5db28@conference.murderbeard.com'),
+    //xmpp.muc.destroyRoom('31118f48-8aed-440f-aba6-a2412d5b2ff4@conference.murderbeard.com')
 )
 .subscribe({
     next: () => {},
     error: (error: any) => { console.error({error: error}, "some weird fucking error happened")},
     complete: () => { 
         console.log("the whole app is complete");
-        process.exit(0);
+        //process.exit(0);
     }
 })
 

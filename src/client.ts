@@ -46,10 +46,8 @@ export default class Client {
     }
 
     private _bindHandlerToThis =
-        (handler: Handler<any>) => {
+        (handler: Handler<any>) =>
             this._client.on(handler.name, handler.handler);
-            //this.client.on('raw:*', console.log.bind(console));
-        }
 
     public getHandler =
         (name: string): Handler<any> =>
@@ -68,7 +66,8 @@ export default class Client {
             this._client.configureRoom(roomName, options, callback);
 
     public leaveRoom =
-        (roomName: string, nick: string): void => this._client.leaveRoom(roomName, nick);
+        (roomName: string, nick: string): void =>
+            this._client.leaveRoom(roomName, nick);
 
     public destroyRoom = 
         (roomName: string): Observable<any> => 

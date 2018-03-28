@@ -11,10 +11,7 @@ class Client {
         this.create = (options) => this._client = stanzaIO.createClient(options);
         this.connect = () => this._client.connect();
         this.disconnect = () => this._client.disconnect();
-        this._bindHandlerToThis = (handler) => {
-            this._client.on(handler.name, handler.handler);
-            //this.client.on('raw:*', console.log.bind(console));
-        };
+        this._bindHandlerToThis = (handler) => this._client.on(handler.name, handler.handler);
         this.getHandler = (name) => this._handlers[name];
         this.removeHandler = (name) => this._handlers = _.omit(this._handlers, name);
         this.joinRoom = (roomName, nick = config_1.default.defaultNick) => this._client.joinRoom(roomName, nick);
