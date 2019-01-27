@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const Subject_1 = require("rxjs/Subject");
+const rxjs_1 = require("rxjs");
 class Handler {
     constructor() {
-        this.subject = new Subject_1.Subject();
+        this.subject = new rxjs_1.Subject();
         this.name = 'handler';
         this.handler = null;
     }

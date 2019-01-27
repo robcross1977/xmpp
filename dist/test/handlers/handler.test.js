@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const chai_1 = require("chai");
 const proxyquire = require("proxyquire");
-const Subject_1 = require("rxjs/Subject");
+const rxjs_1 = require("rxjs");
 describe('The Handler class', () => {
     let handler;
     beforeEach(() => {
@@ -41,7 +41,7 @@ describe('The Handler class', () => {
             // arrange
             // act
             // assert
-            chai_1.expect(handler.subject instanceof Subject_1.Subject).to.be.true;
+            chai_1.expect(handler.subject instanceof rxjs_1.Subject).to.be.true;
         });
     });
 });

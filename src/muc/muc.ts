@@ -1,10 +1,6 @@
-import * as uuid from 'uuid/v4';
 import Client from '../client';
-import logger from '../logger';
 import AnonRoomFactory from './anonRoomFactory';
-import { Observable } from 'rxjs/Observable';
-import { fromPromise } from 'rxjs/observable/fromPromise';
-import { Observer } from 'rxjs/Observer';
+import { Observable } from 'rxjs';
 
 export default class Muc {
     private _client: Client;

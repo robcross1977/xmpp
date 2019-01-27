@@ -1,7 +1,5 @@
 import Handler from './handler';
-import { Subject } from 'rxjs/Subject';
 import Client from '../client';
-import JoinedSpecificRoomHandler from './joinedSpecificRoomHandler';
 import logger from '../logger';
 
 export default class MucJoinHandler extends Handler<string> {

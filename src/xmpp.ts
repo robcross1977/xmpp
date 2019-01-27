@@ -1,4 +1,4 @@
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import Client from './client';
 import Handler from './handlers/handler';
 import AuthFailedHandler from './handlers/authFailedHandler';

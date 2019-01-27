@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 import * as proxyquire from 'proxyquire';
-import { Subject } from 'rxjs/Subject';
-import Logger from '@murderbeard/logger';
+import { Subject } from 'rxjs';
 
 describe('The Handler class', () => {
     let handler: any;

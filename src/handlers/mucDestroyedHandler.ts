@@ -1,5 +1,4 @@
 import Handler from './handler';
-import { Subject } from 'rxjs/Subject';
 import logger from '../logger';
 
 export default class MucDestroyedHandler extends Handler<string> {

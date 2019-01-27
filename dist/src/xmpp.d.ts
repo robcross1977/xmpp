@@ -1,4 +1,4 @@
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import Handler from './handlers/handler';
 import ConnectionOptions from './models/connectionOptions';
 import Muc from './muc/muc';
@@ -7,7 +7,7 @@ export default class Xmpp {
     private _client;
     constructor();
     readonly muc: Muc;
-    private _setupHandlers();
+    private _setupHandlers;
     create(options: ConnectionOptions): void;
     connect: () => void;
     disconnect: () => void;

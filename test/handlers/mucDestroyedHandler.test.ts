@@ -2,7 +2,6 @@ import { expect } from 'chai';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 import Handler from '../../src/handlers/handler';
-import Logger from '@murderbeard/logger';
 
 describe('The MucDestroyedHandler class', () => {
     let handler: any;

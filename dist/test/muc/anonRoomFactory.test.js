@@ -3,10 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const chai_1 = require("chai");
 const sinon = require("sinon");
 const proxyquire = require("proxyquire");
-const Observable_1 = require("rxjs/Observable");
-require("rxjs/add/operator/first");
-require("rxjs/add/observable/empty");
-require("rxjs/add/observable/throw");
+const rxjs_1 = require("rxjs");
 const events_1 = require("events");
 const mucJoinHandler_1 = require("../../src/handlers/mucJoinHandler");
 describe('The AnonRoomFactory class', () => {
@@ -82,7 +79,7 @@ describe('The AnonRoomFactory class', () => {
         });
         it('should assign a roomName if one isn\'t passed in', done => {
             // arrange
-            sinon.stub(anonRoomFactory, 'configureRoom').returns(Observable_1.Observable.empty());
+            sinon.stub(anonRoomFactory, 'configureRoom').returns(rxjs_1.EMPTY);
             // act
             const createRoom$ = anonRoomFactory.create(testNick);
             const createRoomObserver = {
@@ -97,7 +94,7 @@ describe('The AnonRoomFactory class', () => {
         it('should use the roomName passed in', (done) => {
             // arrange
             anonRoomFactory = getAnonRoomFactory(testRoom);
-            sinon.stub(anonRoomFactory, 'configureRoom').returns(Observable_1.Observable.empty());
+            sinon.stub(anonRoomFactory, 'configureRoom').returns(rxjs_1.EMPTY);
             // act
             const createRoom$ = anonRoomFactory.create(testNick, testRoomFull);
             const createRoomObserver = {
@@ -111,7 +108,7 @@ describe('The AnonRoomFactory class', () => {
         });
         it('should create a custom room joined handler for our specific room we are making to alert people in the handler that we need to do something with this room', (done) => {
             // arrange
-            sinon.stub(anonRoomFactory, 'configureRoom').returns(Observable_1.Observable.empty());
+            sinon.stub(anonRoomFactory, 'configureRoom').returns(rxjs_1.EMPTY);
             const createRoom$ = anonRoomFactory.create(testNick);
             const createRoomObserver = {
                 next: (data) => {
@@ -125,8 +122,8 @@ describe('The AnonRoomFactory class', () => {
         });
         it('should concat joinedRoom followed by configureRoom in that order', done => {
             // arrange
-            sinon.stub(anonRoomFactory, 'configureRoom').returns(Observable_1.Observable.empty());
-            sinon.stub(anonRoomFactory, '_createJoinedSpecificRoomHandler').returns(Observable_1.Observable.empty());
+            sinon.stub(anonRoomFactory, 'configureRoom').returns(rxjs_1.EMPTY);
+            sinon.stub(anonRoomFactory, '_createJoinedSpecificRoomHandler').returns(rxjs_1.EMPTY);
             const createRoom$ = anonRoomFactory.create(testNick);
             const createRoomObserver = {
                 next: (data) => { },
@@ -142,7 +139,7 @@ describe('The AnonRoomFactory class', () => {
         });
         it('should leave the room if an error occurs', done => {
             // arrange
-            sinon.stub(anonRoomFactory, 'configureRoom').returns(Observable_1.Observable.throw('error'));
+            sinon.stub(anonRoomFactory, 'configureRoom').returns(rxjs_1.throwError('error'));
             sinon.stub(anonRoomFactory, 'leaveRoom');
             const createRoom$ = anonRoomFactory.create(testNick);
             const createRoomObserver = {
@@ -159,7 +156,7 @@ describe('The AnonRoomFactory class', () => {
         });
         it('should remove the custom specific joined room handler if an error occurs', done => {
             // arrange
-            sinon.stub(anonRoomFactory, 'configureRoom').returns(Observable_1.Observable.throw('error'));
+            sinon.stub(anonRoomFactory, 'configureRoom').returns(rxjs_1.throwError('error'));
             sinon.spy(anonRoomFactory.client, 'removeHandler');
             const createRoom$ = anonRoomFactory.create(testNick);
             const createRoomObserver = {
@@ -176,7 +173,7 @@ describe('The AnonRoomFactory class', () => {
         });
         it('should leave the room when complete', done => {
             // arrange
-            sinon.stub(anonRoomFactory, 'configureRoom').returns(Observable_1.Observable.empty());
+            sinon.stub(anonRoomFactory, 'configureRoom').returns(rxjs_1.EMPTY);
             sinon.stub(anonRoomFactory, 'leaveRoom');
             const createRoom$ = anonRoomFactory.create(testNick);
             const createRoomObserver = {
@@ -193,7 +190,7 @@ describe('The AnonRoomFactory class', () => {
         });
         it('should remove the custom specific joined room handler if the observerable completes', done => {
             // arrange
-            sinon.stub(anonRoomFactory, 'configureRoom').returns(Observable_1.Observable.empty());
+            sinon.stub(anonRoomFactory, 'configureRoom').returns(rxjs_1.EMPTY);
             sinon.stub(anonRoomFactory.client, 'removeHandler');
             const createRoom$ = anonRoomFactory.create(testNick);
             const createRoomObserver = {
@@ -210,7 +207,7 @@ describe('The AnonRoomFactory class', () => {
         });
         it('should call joinRoom. In that handler (mucJoinHandler), it will emit our custom specific room joined event so that handler can take over', done => {
             // arrange
-            sinon.stub(anonRoomFactory, 'configureRoom').returns(Observable_1.Observable.empty());
+            sinon.stub(anonRoomFactory, 'configureRoom').returns(rxjs_1.EMPTY);
             sinon.spy(anonRoomFactory, 'joinRoom');
             const createRoom$ = anonRoomFactory.create(testNick);
             const createRoomObserver = {
@@ -260,7 +257,7 @@ describe('The AnonRoomFactory class', () => {
         });
         it('should have the underlying client call it\'s leaveRoom method', () => {
             // arrange
-            sinon.stub(anonRoomFactory.client, 'leaveRoom').returns(undefined);
+            sinon.stub(anonRoomFactory.client, 'leaveRoom').returns({});
             // act
             anonRoomFactory.leaveRoom(uuidRoom, testNick);
             // assert
@@ -277,7 +274,7 @@ describe('The AnonRoomFactory class', () => {
         });
         it('should have the underlying client call it\'s destroyRoom method', () => {
             // arrange
-            sinon.stub(anonRoomFactory.client, 'destroyRoom').returns(undefined);
+            sinon.stub(anonRoomFactory.client, 'destroyRoom').returns({});
             // act
             anonRoomFactory.destroyRoom(uuidRoom);
             // assert

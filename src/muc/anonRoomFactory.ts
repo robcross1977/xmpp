@@ -1,14 +1,10 @@
 import * as uuid from 'uuid/v4';
-import { Subject } from 'rxjs/subject'
-import { Observable } from 'rxjs/observable';
-import { concat } from 'rxjs/observable/concat';
-import 'rxjs/add/operator/timeout';
-import 'rxjs/add/operator/retry';
+import { Subject, Observable, concat, Observer } from 'rxjs'
+import { timeout, retry } from 'rxjs/operators';
 import JoinedSpecificRoomHandler from '../handlers/joinedSpecificRoomHandler';
 import Client from '../client';
 import logger from '../logger';
 import config from '../config';
-import { Observer } from 'rxjs/Observer';
 
 export default class AnonRoomFactory {
     private _client: Client;
@@ -29,10 +25,10 @@ export default class AnonRoomFactory {
                 this._createJoinedSpecificRoomHandler(finalRoomName, nick),
                 this.configureRoom(finalRoomName, nick)
             )
-            .timeout(config.createAnonRoomTimeout)
-            .retry(config.createAnonRoomRetryCount)
+            .pipe(timeout(config.createAnonRoomTimeout))
+            .pipe(retry(config.createAnonRoomRetryCount))
             .subscribe({
-                next: (data) => {
+                next: (data: any) => {
                     observer.next(data);
                 },
                 error: (error: any) => {

@@ -1,5 +1,5 @@
 import Client from '../client';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 export default class Muc {
     private _client;
     private _anonRoomFactory;

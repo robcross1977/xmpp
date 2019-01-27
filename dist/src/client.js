@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const stanzaIO = require("stanza.io");
-const Observable_1 = require("rxjs/Observable");
+const rxjs_1 = require("rxjs");
 const _ = require("lodash");
 const logger_1 = require("./logger");
 const config_1 = require("./config");
@@ -17,7 +17,7 @@ class Client {
         this.joinRoom = (roomName, nick = config_1.default.defaultNick) => this._client.joinRoom(roomName, nick);
         this.configureRoom = (roomName, options, callback) => this._client.configureRoom(roomName, options, callback);
         this.leaveRoom = (roomName, nick) => this._client.leaveRoom(roomName, nick);
-        this.destroyRoom = (roomName) => Observable_1.Observable.create((observer) => {
+        this.destroyRoom = (roomName) => rxjs_1.Observable.create((observer) => {
             logger_1.default.debug({ roomName: roomName }, 'destroying room', roomName);
             this._client.destroyRoom(roomName, {}, (err) => {
                 if (err) {

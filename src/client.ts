@@ -1,11 +1,8 @@
 import * as stanzaIO from 'stanza.io';
-import { EventEmitter } from 'events';
-import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Observer';
+import { Observable, Observer } from 'rxjs';
 import * as _ from 'lodash';
 import ConnectionOptions from './models/connectionOptions';
 import Handler from './handlers/handler';
-import { Subject } from 'rxjs/Subject';
 import logger from './logger';
 import config from './config';
 
