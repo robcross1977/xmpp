@@ -22,5 +22,5 @@ class Config {
 }
 ;
 logger_1.default.info({ env: process.env.NODE_ENV }, 'getting config');
-exports.default = new Config().getConfig(process.env.NODE_ENV || 'dev');
+exports.default = new Config().getConfig(process.env.NODE_ENV || 'development');
 //# sourceMappingURL=config.js.map
