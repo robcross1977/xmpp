@@ -4,7 +4,7 @@ const logger_1 = require("./logger");
 class Config {
     constructor() {
         this._configs = {
-            dev: {
+            development: {
                 createAnonRoomTimeout: 2000,
                 createAnonRoomRetryCount: 3,
                 defaultNick: 'daemon'
