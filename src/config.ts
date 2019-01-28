@@ -8,7 +8,7 @@ export interface XmppConfig {
 
 class Config {
    private _configs: { [configName: string]: XmppConfig } = {
-       dev: {
+       development: {
             createAnonRoomTimeout: 2000,
             createAnonRoomRetryCount: 3,
             defaultNick: 'daemon'

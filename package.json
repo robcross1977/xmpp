@@ -11,7 +11,7 @@
     "test": "nyc mocha",
     "watch": "mocha-typescript-watch",
     "prepare": "tsc",
-    "start": "tsc && node ./dist/src/xmpp.js"
+    "start": "process.env.NODE_ENV=development tsc && node ./dist/src/xmpp.js"
   },
   "author": "Robert Crossland",
   "license": "ISC",
