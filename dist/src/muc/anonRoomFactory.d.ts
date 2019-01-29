@@ -9,7 +9,7 @@ export default class AnonRoomFactory {
     private _cleanUpJoinRoom;
     private _createJoinedSpecificRoomHandler;
     joinRoom: (roomName: string, nick: string) => void;
-    configureRoom(roomName: string, nick: string): Observable<any>;
+    configureRoom(roomName: string): Observable<any>;
     leaveRoom: (roomName: string, nick: string) => void;
     destroyRoom: (roomName: string) => Observable<any>;
 }

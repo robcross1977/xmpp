@@ -8,9 +8,11 @@ const logger_1 = require("../logger");
 const config_1 = require("../config");
 class AnonRoomFactory {
     constructor(client) {
-        this.create = (nick, roomName) => rxjs_1.Observable.create((observer) => {
+        this.create = (nick, roomName) => 
+        // We create the observable here and then call the function to trigger it right after
+        rxjs_1.Observable.create((observer) => {
             const finalRoomName = this._getRoomname(roomName);
-            rxjs_1.concat(this._createJoinedSpecificRoomHandler(finalRoomName, nick), this.configureRoom(finalRoomName, nick))
+            rxjs_1.concat(this._createJoinedSpecificRoomHandler(finalRoomName), this.configureRoom(finalRoomName))
                 .pipe(operators_1.timeout(+config_1.Config.get('CREATE_ANON_ROOM_TIMEOUT')))
                 .pipe(operators_1.retry(+config_1.Config.get('CREATE_ANON_ROOM_RETRY_COUNT')))
                 .subscribe({
@@ -35,7 +37,7 @@ class AnonRoomFactory {
         });
         this._getRoomname = (roomName, mucDomain) => roomName ||
             `${uuid()}${!!mucDomain ? mucDomain : '@conference.murderbeard.com'}`;
-        this._createJoinedSpecificRoomHandler = (roomName, nick) => this._client.addHandler(new joinedSpecificRoomHandler_1.default(roomName)).subject;
+        this._createJoinedSpecificRoomHandler = (roomName) => this._client.addHandler(new joinedSpecificRoomHandler_1.default(roomName)).subject;
         this.joinRoom = (roomName, nick) => this._client.joinRoom(roomName, nick);
         this.leaveRoom = (roomName, nick) => this._client.leaveRoom(roomName, nick);
         this.destroyRoom = (roomName) => this._client.destroyRoom(roomName);
@@ -48,7 +50,7 @@ class AnonRoomFactory {
         this.leaveRoom(roomName, nick);
         this._client.removeHandler(`${roomName}-joined`);
     }
-    configureRoom(roomName, nick) {
+    configureRoom(roomName) {
         return rxjs_1.Observable.create((observer) => {
             logger_1.default.debug(`configuring room ${roomName}`);
             this._client.configureRoom(roomName, {

@@ -18,12 +18,13 @@ export default class AnonRoomFactory {
     }
 
     public create = (nick: string, roomName?: string): Observable<any> =>
+        // We create the observable here and then call the function to trigger it right after
         Observable.create((observer: Observer<any>) => {
             const finalRoomName = this._getRoomname(roomName);
 
             concat(
-                this._createJoinedSpecificRoomHandler(finalRoomName, nick),
-                this.configureRoom(finalRoomName, nick)
+                this._createJoinedSpecificRoomHandler(finalRoomName),
+                this.configureRoom(finalRoomName)
             )
             .pipe(timeout(+Config.get('CREATE_ANON_ROOM_TIMEOUT')))
             .pipe(retry(+Config.get('CREATE_ANON_ROOM_RETRY_COUNT')))
@@ -60,7 +61,7 @@ export default class AnonRoomFactory {
     }
 
     private _createJoinedSpecificRoomHandler = 
-        (roomName:string, nick: string): Subject<any> =>
+        (roomName:string): Subject<any> =>
             this._client.addHandler(
                 new JoinedSpecificRoomHandler(roomName)
             ).subject;
@@ -69,7 +70,7 @@ export default class AnonRoomFactory {
         (roomName: string, nick: string): void =>
             this._client.joinRoom(roomName, nick);
 
-    public configureRoom(roomName: string, nick: string): Observable<any> {
+    public configureRoom(roomName: string): Observable<any> {
         return Observable.create((observer: Observer<any>) => {
             logger.debug(`configuring room ${ roomName }`);
 
