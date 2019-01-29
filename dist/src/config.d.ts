@@ -1,7 +1,4 @@
-export interface XmppConfig {
-    createAnonRoomTimeout: number;
-    createAnonRoomRetryCount: number;
-    defaultNick: string;
+export declare class Config {
+    private static readonly envConfig;
+    static get(key: string): string;
 }
-declare const _default: XmppConfig;
-export default _default;

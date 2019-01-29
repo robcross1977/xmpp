@@ -4,7 +4,7 @@ import * as _ from 'lodash';
 import ConnectionOptions from './models/connectionOptions';
 import Handler from './handlers/handler';
 import logger from './logger';
-import config from './config';
+import { Config }  from './config';
 
 export default class Client {
     private _handlers: { [name: string]: Handler<any>; } = {};
@@ -55,7 +55,7 @@ export default class Client {
             this._handlers = _.omit(this._handlers, name);
 
     public joinRoom =
-        (roomName: string | undefined, nick: string = config.defaultNick): void =>
+        (roomName: string | undefined, nick: string = Config.get('DEFAULT_NICK')): void =>
             this._client.joinRoom(roomName, nick); 
     
     public configureRoom =

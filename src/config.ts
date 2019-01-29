@@ -1,29 +1,10 @@
-import logger from './logger';
+import * as dotenv from 'dotenv';
+import * as fs from 'fs';
 
-export interface XmppConfig {
-    createAnonRoomTimeout: number,
-    createAnonRoomRetryCount: number,
-    defaultNick: string
+export class Config {
+    private static readonly envConfig: { [key: string]: string } = dotenv.parse(fs.readFileSync(`.env`));
+  
+    static get(key: string): string {
+        return this.envConfig[key];
+    }
 }
-
-class Config {
-   private _configs: { [configName: string]: XmppConfig } = {
-       development: {
-            createAnonRoomTimeout: 2000,
-            createAnonRoomRetryCount: 3,
-            defaultNick: 'daemon'
-       }
-   }
-
-   public getConfig(environment: string) : XmppConfig {
-       if(environment in this._configs) {
-           return this._configs[environment];
-       } else {
-           throw new Error('config not found');
-       }
-   }
-};
-
-logger.info({ env: process.env.NODE_ENV }, 'getting config');
-
-export default new Config().getConfig(process.env.NODE_ENV || 'dev');

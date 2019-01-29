@@ -4,7 +4,7 @@ import { timeout, retry } from 'rxjs/operators';
 import JoinedSpecificRoomHandler from '../handlers/joinedSpecificRoomHandler';
 import Client from '../client';
 import logger from '../logger';
-import config from '../config';
+import { Config } from '../config';
 
 export default class AnonRoomFactory {
     private _client: Client;
@@ -25,8 +25,8 @@ export default class AnonRoomFactory {
                 this._createJoinedSpecificRoomHandler(finalRoomName, nick),
                 this.configureRoom(finalRoomName, nick)
             )
-            .pipe(timeout(config.createAnonRoomTimeout))
-            .pipe(retry(config.createAnonRoomRetryCount))
+            .pipe(timeout(+Config.get('CREATE_ANON_ROOM_TIMEOUT')))
+            .pipe(retry(+Config.get('CREATE_ANON_ROOM_RETRY_COUNT')))
             .subscribe({
                 next: (data: any) => {
                     observer.next(data);

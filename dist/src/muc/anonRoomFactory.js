@@ -11,8 +11,8 @@ class AnonRoomFactory {
         this.create = (nick, roomName) => rxjs_1.Observable.create((observer) => {
             const finalRoomName = this._getRoomname(roomName);
             rxjs_1.concat(this._createJoinedSpecificRoomHandler(finalRoomName, nick), this.configureRoom(finalRoomName, nick))
-                .pipe(operators_1.timeout(config_1.default.createAnonRoomTimeout))
-                .pipe(operators_1.retry(config_1.default.createAnonRoomRetryCount))
+                .pipe(operators_1.timeout(+config_1.Config.get('CREATE_ANON_ROOM_TIMEOUT')))
+                .pipe(operators_1.retry(+config_1.Config.get('CREATE_ANON_ROOM_RETRY_COUNT')))
                 .subscribe({
                 next: (data) => {
                     observer.next(data);

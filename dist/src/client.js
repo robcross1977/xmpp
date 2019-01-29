@@ -14,7 +14,7 @@ class Client {
         this._bindHandlerToThis = (handler) => this._client.on(handler.name, handler.handler);
         this.getHandler = (name) => this._handlers[name];
         this.removeHandler = (name) => this._handlers = _.omit(this._handlers, name);
-        this.joinRoom = (roomName, nick = config_1.default.defaultNick) => this._client.joinRoom(roomName, nick);
+        this.joinRoom = (roomName, nick = config_1.Config.get('DEFAULT_NICK')) => this._client.joinRoom(roomName, nick);
         this.configureRoom = (roomName, options, callback) => this._client.configureRoom(roomName, options, callback);
         this.leaveRoom = (roomName, nick) => this._client.leaveRoom(roomName, nick);
         this.destroyRoom = (roomName) => rxjs_1.Observable.create((observer) => {
