@@ -2,10 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const uuid = require("uuid/v4");
 const rxjs_1 = require("rxjs");
-const operators_1 = require("rxjs/operators");
 const joinedSpecificRoomHandler_1 = require("../handlers/joinedSpecificRoomHandler");
 const logger_1 = require("../logger");
-const config_1 = require("../config");
 class AnonRoomFactory {
     constructor(client) {
         this.create = (nick, roomName) => 
@@ -13,8 +11,6 @@ class AnonRoomFactory {
         rxjs_1.Observable.create((observer) => {
             const finalRoomName = this._getRoomname(roomName);
             rxjs_1.concat(this._createJoinedSpecificRoomHandler(finalRoomName), this.configureRoom(finalRoomName))
-                .pipe(operators_1.timeout(+config_1.Config.get('CREATE_ANON_ROOM_TIMEOUT')))
-                .pipe(operators_1.retry(+config_1.Config.get('CREATE_ANON_ROOM_RETRY_COUNT')))
                 .subscribe({
                 next: (data) => {
                     observer.next(data);

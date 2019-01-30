@@ -1,10 +1,8 @@
 import * as uuid from 'uuid/v4';
 import { Subject, Observable, concat, Observer } from 'rxjs'
-import { timeout, retry } from 'rxjs/operators';
 import JoinedSpecificRoomHandler from '../handlers/joinedSpecificRoomHandler';
 import Client from '../client';
 import logger from '../logger';
-import { Config } from '../config';
 
 export default class AnonRoomFactory {
     private _client: Client;
@@ -26,8 +24,6 @@ export default class AnonRoomFactory {
                 this._createJoinedSpecificRoomHandler(finalRoomName),
                 this.configureRoom(finalRoomName)
             )
-            .pipe(timeout(+Config.get('CREATE_ANON_ROOM_TIMEOUT')))
-            .pipe(retry(+Config.get('CREATE_ANON_ROOM_RETRY_COUNT')))
             .subscribe({
                 next: (data: any) => {
                     observer.next(data);
