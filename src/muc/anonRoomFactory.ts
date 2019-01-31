@@ -1,5 +1,6 @@
 import * as uuid from 'uuid/v4';
 import { Subject, Observable, concat, Observer } from 'rxjs'
+import { last } from 'rxjs/operators';
 import JoinedSpecificRoomHandler from '../handlers/joinedSpecificRoomHandler';
 import Client from '../client';
 import logger from '../logger';
@@ -24,8 +25,10 @@ export default class AnonRoomFactory {
                 this._createJoinedSpecificRoomHandler(finalRoomName),
                 this.configureRoom(finalRoomName)
             )
+            .pipe(last())
             .subscribe({
                 next: (data: any) => {
+                    console.log("check it", {data: data});
                     observer.next(data);
                 },
                 error: (error: any) => {
