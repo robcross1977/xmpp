@@ -147,8 +147,8 @@ describe('The AnonRoomFactory class', () => {
 
         it('should concat joinedRoom followed by configureRoom in that order', done => {
             // arrange
-            sinon.stub(anonRoomFactory, 'configureRoom').returns(EMPTY);
-            sinon.stub(anonRoomFactory, '_createJoinedSpecificRoomHandler').returns(EMPTY);
+            sinon.stub(anonRoomFactory, 'configureRoom').returns([1]);
+            sinon.stub(anonRoomFactory, '_createJoinedSpecificRoomHandler').returns([1]);
 
             const createRoom$ = anonRoomFactory.create(testNick);
 
