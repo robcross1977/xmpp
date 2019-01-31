@@ -28,7 +28,6 @@ export default class AnonRoomFactory {
             .pipe(last())
             .subscribe({
                 next: (data: any) => {
-                    console.log("check it", {data: data});
                     observer.next(data);
                 },
                 error: (error: any) => {
