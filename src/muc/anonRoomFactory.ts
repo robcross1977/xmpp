@@ -28,6 +28,7 @@ export default class AnonRoomFactory {
             )
             .pipe(last())
             .pipe(retry(+Config.get('CREATE_ANON_ROOM_RETRY_COUNT')))
+            .pipe(timeout(+Config.get('CREATE_ANON_ROOM_TIMEOUT')))
             .subscribe({
                 next: (data: any) => {
                     observer.next(data);
