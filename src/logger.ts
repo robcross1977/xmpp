@@ -20,5 +20,4 @@ if(process.env['NODE_ENV'] === 'dev') {
         path: 'debug.log'
     });
 }
-
 export default logger;

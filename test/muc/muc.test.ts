@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
-import Logger from '@murderbeard/logger';
 
 describe('The Muc class', () => {
     let muc: any;
