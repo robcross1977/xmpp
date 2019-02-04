@@ -9,7 +9,7 @@ const logger = new logger_1.default({
             path: './error.log'
         }]
 });
-if (process.env['NODE_ENV'] === 'dev') {
+if (process.env['NODE_ENV'] === 'development') {
     logger.addStream({
         level: 'info',
         stream: process.stdout
